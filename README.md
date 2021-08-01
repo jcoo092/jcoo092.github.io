@@ -1,37 +1,35 @@
-## Welcome to GitHub Pages
+# Gradfolio
 
-You can use the [editor on GitHub](https://github.com/jcoo092/jcoo092.github.io/edit/gh-pages/README.md) to maintain and preview the content for your website in Markdown files.
+responsive, dark-mode ready Jekyll theme designed for use as a personal website and portfolio. [Here's a live demo](https://jitinnair1.github.io/gradfolio/)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+![Gradfolio Template Homepage](https://user-images.githubusercontent.com/2485715/110634179-acaa7e00-81cf-11eb-8846-062ecf961d1e.png)
 
-### Markdown
+## Features
+- Responsive
+- Respects Dark Mode preference set by user
+- Projects Page to showcase your work/side projects
+- Easily link to your profiles on ResearchGate and ORCID
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Installation
+* Click on `Use this template`
+* Your new site should be ready at https://username.github.io/gradfolio/
+* You can now modify the contents and personalise the template
 
-```markdown
-Syntax highlighted code block
+Alternatively, you can [download the source files](https://github.com/jitinnair1/gradfolio/archive/master.zip) and make changes locally. 
 
-# Header 1
-## Header 2
-### Header 3
+To test these changes, open a terminal inside the source folder and use `jekyll serve --incremental --trace` to make it available on a local server (typically http://localhost:4000/)
 
-- Bulleted
-- List
+The `--incremental` flag ensures that any changes you make are reflected in your browser in real time and the `--trace` option might be useful for debugging if things break while you are changing the source files.
 
-1. Numbered
-2. List
+Once you have personalised and tested the site, you can create a new repo, upload these files and host your website from the repo.
 
-**Bold** and _Italic_ and `Code` text
+## Based on
+- [hagura](https://github.com/sharu725/hagura)
+- [al-folio](https://github.com/alshedivat/al-folio)
+- [noir](https://github.com/essentialenemy/noir)
+- [jekyll-TeXt-theme](https://github.com/kitian616/jekyll-TeXt-theme)
 
-[Link](url) and ![Image](src)
-```
+## License
+MIT License
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jcoo092/jcoo092.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+[![JekyllThemes](https://img.shields.io/badge/featured%20on-JekyllThemes-red.svg)](https://jekyll-themes.com)
