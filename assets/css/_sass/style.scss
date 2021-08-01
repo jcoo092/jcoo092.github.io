@@ -17,6 +17,7 @@ body {
   @media (prefers-color-scheme: dark) {
     background-color: $body-bg-dark;
     color: $text-color-dark;
+    $brand-color: $brand-color-dark
   }
 }
 

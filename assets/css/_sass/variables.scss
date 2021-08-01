@@ -10,10 +10,13 @@ $uoa-lightblue: #009AC7;
 $uoa-silver: #8D9091;
 
 $spacing-unit:     30px;
-$light-gray: gray;
+//$light-gray: gray;
+$light-gray: $uoa-silver;
 $text-color:       #333;
 $background-color: #fdfdfd;
-$brand-color:      #60c17d;
+//$brand-color:      #60c17d;
+$brand-color: $uoa-darkblue;
+$brand-color-dark: $uoa-silver;
 
 // Color scheme for light
 $body-bg: #fdfdfd;
