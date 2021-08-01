@@ -8,7 +8,7 @@ published: true
 <!--
     The below is a 'template' for references, pinched from https://david.darais.com/
 
-  <li class="my-2">
+<li class="my-2">
   <b>DuetSGX: Differential Privacy with Secure Hardware.</b>
   <br>
   Phillip Nguyen, Alex Silence, David Darais, Joseph P. Near.
@@ -17,12 +17,11 @@ published: true
   <br>
   DOI: <a href="https://doi.org/XYZ">XYZ</a>
   <br>
-  [<a href="">DOI</a>]
   [<a href="assets/papers/duet-sgx/duet-sgx.pdf">pdf</a>]
   [<a href="assets/papers/duet-sgx/duet-sgx-abstract.txt">abstract</a>]
-  [<a href="assets/papers/duet-sgx/duet-sgx-bibtex.txt">bibtex</a>]
+  [<a href="assets/papers/duet-sgx/duet-sgx.bib">bibtex</a>]
   [<a href="https://arxiv.org/abs/2010.10664">arXiv</a>]
-  </li>
+</li>
 -->
 
 <li class="my-2">
@@ -62,4 +61,27 @@ published: true
   <br />
   [<a href="assets/papers/median-cml/median-cml-abstract.txt">abstract</a>]
   [<a href="assets/papers/median-cml/median-cml.bib">bibtex</a>]
+</li>
+
+<li class="my-2">
+  <b>A multi-scale framework for the automated surveying of the Whangateau estuary using off-the-shelf equipment</b>
+  <br>
+  Arabella Anderson et al.
+  <br>
+  <em>2017 International Conference on Image and Vision Computing New Zealand (IVCNZ). 2017.</em>
+  <br>
+  DOI: <a href="https://doi.org/10.1109/IVCNZ.2017.8402506">10.1109/IVCNZ.2017.8402506</a>
+  <br>
+  [<a href="assets/papers/estuary1/estuary1-abstract.txt">abstract</a>]
+  [<a href="assets/papers/estuary1.bib">bibtex</a>]
+</li>
+
+<li class="my-2">
+  <b>Direct Enforcement of Security in Personal Property in New Zealand: Unhelpful Differences Between Acts</b>
+  <br>
+  James Cooper
+  <br>
+  <em>New Zealand Business Law Quarterly 19(1). 2013.</em>
+  <br>
+  [<a href="assets/papers/nzblq/nzblq-abstract.txt">abstract</a>]
 </li>
