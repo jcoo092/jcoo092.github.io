@@ -1,8 +1,7 @@
----
-title: Selected Publications
-layout: about
-permalink: /publications/
-published: true
+NavbarTitle: Publications
+Order: 4
+Title: Selected Publications
+Description: A Listing of My Most Interesting Research Papers
 ---
 
 <!--
@@ -33,8 +32,8 @@ published: true
   <br />
   DOI: <a href="https://doi.org/10.1007/s41965-019-00013-2">10.1007/s41965-019-00013-2</a>
   <br />
-  [<a href="assets/papers/graphcol/graphcol-abstract.txt">abstract</a>]
-  [<a href="assets/papers/graphcol/graphcol.bib">bibtex</a>]
+  [<a href="publications/graphcol/graphcol-abstract.txt">abstract</a>]
+  [<a href="publications/graphcol/graphcol.bib">bibtex</a>]
 </li>
 
 <li class="my-2">
@@ -46,8 +45,8 @@ published: true
   <br />
   DOI: <a href="https://doi.org/10.3233/FI-2019-1760">10.3233/FI-2019-1760</a>
   <br />
-  [<a href="assets/papers/tsp/tsp-abstract.txt">abstract</a>]
-  [<a href="assets/papers/tsp/tsp.bib">bibtex</a>]
+  [<a href="publications/tsp/tsp-abstract.txt">abstract</a>]
+  [<a href="publications/tsp/tsp.bib">bibtex</a>]
 </li>
 
 <li class="my-2">
@@ -59,21 +58,21 @@ published: true
   <br />
   DOI: <a href="https://doi.org/10.1109/IVCNZ.2018.8634712">10.1109/IVCNZ.2018.8634712</a>
   <br />
-  [<a href="assets/papers/median-cml/median-cml-abstract.txt">abstract</a>]
-  [<a href="assets/papers/median-cml/median-cml.bib">bibtex</a>]
+  [<a href="publications/median-cml/median-cml-abstract.txt">abstract</a>]
+  [<a href="publications/median-cml/median-cml.bib">bibtex</a>]
 </li>
 
 <li class="my-2">
   <b>A multi-scale framework for the automated surveying of the Whangateau estuary using off-the-shelf equipment</b>
   <br>
-  Arabella Anderson et al.
+  Arabella Anderson <i>et al.</i>
   <br>
   <em>2017 International Conference on Image and Vision Computing New Zealand (IVCNZ). 2017.</em>
   <br>
   DOI: <a href="https://doi.org/10.1109/IVCNZ.2017.8402506">10.1109/IVCNZ.2017.8402506</a>
   <br>
-  [<a href="assets/papers/estuary1/estuary1-abstract.txt">abstract</a>]
-  [<a href="assets/papers/estuary1.bib">bibtex</a>]
+  [<a href="publications/estuary1/estuary1-abstract.txt">abstract</a>]
+  [<a href="publications/estuary1/estuary1.bib">bibtex</a>]
 </li>
 
 <li class="my-2">
@@ -83,5 +82,5 @@ published: true
   <br>
   <em>New Zealand Business Law Quarterly 19(1). 2013.</em>
   <br>
-  [<a href="assets/papers/nzblq/nzblq-abstract.txt">abstract</a>]
+  [<a href="publications/nzblq/nzblq-abstract.txt">abstract</a>]
 </li>
