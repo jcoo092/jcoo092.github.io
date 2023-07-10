@@ -4,6 +4,10 @@ Published: 09-07-2023
 Tags:
 
 - AppSec
+- AWS
+- Cloud
+- Deployment
+- Juice Shop
 - OWASP
 
 ---
