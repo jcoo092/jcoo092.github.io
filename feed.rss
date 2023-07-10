@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+	<channel>
+		<title>My Blog</title>
+		<link>/</link>
+		<description />
+		<copyright>Copyright © 2023</copyright>
+		<pubDate>Mon, 10 Jul 2023 01:54:57 GMT</pubDate>
+		<lastBuildDate>Mon, 10 Jul 2023 01:54:57 GMT</lastBuildDate>
+		<item>
+			<title>This Is An Example Post</title>
+			<link>/posts/example</link>
+			<description>&lt;p&gt;This is my example blog post content.&lt;/p&gt;</description>
+			<guid isPermaLink="false">/posts/example</guid>
+			<pubDate>Mon, 10 Jul 2023 01:54:27 GMT</pubDate>
+			<content:encoded>&lt;p&gt;This is my example blog post content.&lt;/p&gt;
+</content:encoded>
+			<comments xmlns="http://purl.org/rss/1.0/modules/slash/">0</comments>
+		</item>
+	</channel>
+</rss>
