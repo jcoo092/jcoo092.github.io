@@ -4,13 +4,13 @@
 	<title>James Cooper, PhD</title>
 	<link rel="self" href="https://jcoo092.github.io/" />
 	<rights>Copyright © James Cooper 2023.  To the maximum extent possible, permission is explicitly denied for using the content of this site to train machine learning models.</rights>
-	<updated>2023-07-10T02:57:14Z</updated>
+	<updated>2023-07-10T03:43:21Z</updated>
 	<subtitle>A small site acting as a blog host and online CV</subtitle>
 	<entry>
 		<id>https://jcoo092.github.io/posts/example</id>
 		<title>This Is An Example Post</title>
 		<link href="https://jcoo092.github.io/posts/example" />
-		<updated>2023-07-10T02:56:42Z</updated>
+		<updated>2023-07-10T03:42:48Z</updated>
 		<content>&lt;p&gt;This is my example blog post content.&lt;/p&gt;
 </content>
 		<summary>&lt;p&gt;This is my example blog post content.&lt;/p&gt;</summary>
