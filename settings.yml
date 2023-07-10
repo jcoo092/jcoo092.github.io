@@ -2,7 +2,6 @@ MinimumStatiqWebVersion-CleanBlog: "1.0.0-beta.36"
 
 # Hosting settings
 Host: jcoo092.github.io # Host name - This example is for GitHub pages
-# Host: localhost:5080
 LinksUseHttps: true # Whether to generate HTTPS links in archives etc. - usually true, of course
 
 SiteTitle: James Cooper, PhD
