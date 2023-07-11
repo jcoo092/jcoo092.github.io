@@ -4,8 +4,4 @@ Description:  Computer Scientist, Software Developer, Application Security Enthu
 
 # Hello World
 
-Hello from my first Statiq page.
-
-## Subsection
-
-And this is a subsection
+This is a simple statically generated site, to serve as a blog host and rudimentary CV for myself.
