@@ -10,4 +10,4 @@ I also have a reasonably significant academic background.  I hold a PhD in Compu
 
 Just in case you're curious, these days I mostly spend my time working at paid employment (or, while unemployed, some personal projects I'm tinkering with), or reading computer science/programming/software development textbooks.[^1]  To prove I'm not *completely* boring, I used to be fairly heavily involved with [NZLARPS](https://nzlarps.org/), but have been too caught up in doctoral studies in the past few years.  I do still attend a weekly tabletop roleplaying game, thanks to the [Auckland Roleplaying Guild](https://aucklandrpg.nz/).  Wait, that might not be proof non-boring-ness...
 
-[^1]: One day I will get around to putting up a listing of what I have read, and probably include brief reviews also.
+[^1]: One day I *might* get around to putting up a listing of what I have read, and probably include brief reviews also.
