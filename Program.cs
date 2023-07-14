@@ -1,4 +1,12 @@
-﻿return await Bootstrapper
+﻿using System.Globalization;
+using Statiq.App;
+using Statiq.Common;
+using Statiq.Web;
+
+// Ensure consistent date handling
+CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-NZ");
+
+return await Bootstrapper
     .Factory
     .CreateWeb(args)
     .DeployToGitHubPages(
