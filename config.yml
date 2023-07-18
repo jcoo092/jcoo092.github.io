@@ -1,7 +1,7 @@
 baseURL: "https://jcoo092.github.io/"
 title: James Cooper, Ph.D.
 paginate: 10
-theme: PaperMod
+theme: PaperMod # pinned to using the v7.0 tagged commit
 
 enableRobotsTXT: true
 buildDrafts: false
