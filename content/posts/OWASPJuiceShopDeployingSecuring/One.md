@@ -81,7 +81,7 @@ I fully expect this plan to be revised as I go.  Moreover, as blog posts are pub
 
 ## Future Directions
 
-There are a number of similar projects out there that also could be used in a similar-ish fashion.  Potentially including, [but](https://owasp.org/www-project-vulnerable-web-applications-directory/) [not](https://resources.infosecinstitute.com/topic/vulnerable-web-apps-from-owasp-and-others/) [limited](https://github.com/vavkamil/awesome-vulnerable-apps) [to](https://kaiiyer.github.io/awesome-vulnerable/)[^vwads]:
+There are a number of similar projects out there that also could be used in a similar-ish fashion.  Potentially including, [but](https://owasp.org/www-project-vulnerable-web-applications-directory/) [not](https://resources.infosecinstitute.com/topic/vulnerable-web-apps-from-owasp-and-others/) [limited](https://github.com/vavkamil/awesome-vulnerable-apps) [to](https://kaiiyer.github.io/awesome-vulnerable/):[^vwads]
 
 - [OWASP WebGoat](https://owasp.org/www-project-webgoat/)
 - [OWASP crAPI](https://github.com/OWASP/crAPI)

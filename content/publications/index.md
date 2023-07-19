@@ -24,6 +24,8 @@ Description: A Listing of My Most Interesting Research Papers
 </li>
 -->
 
+List to come, once I figure out how to adapt what I currently have to the Hugo style of page generation.  I previously used a different generator, which seemed to accept the straight HTML I had previously used (since it was easy to make that fit the template that I had pinched from elsewhere).  Hugo doesn't seem to be happy with that, though.
+
 <li class="my-2">
   <b>Alternative representations of P systems solutions to the graph colouring problem</b>
   <br />
