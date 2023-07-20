@@ -1,0 +1,46 @@
+[
+  {
+    "abstract": "This paper first presents a simulation of the simple kernel P systems solution to the graph 3-colouring problem presented in a previous paper by Gheorghe et al., implemented in a programming style named Concurrent ML, which is based on the concept of synchronous communication between logical processing elements. This paper then presents and informally analy- ses an alternative compact single-cell solution to the same problem using P systems with compound objects (cP systems), which has the benefit of naturally adapting to the use of any number of colours greater than zero—only the specified colour symbols need to be changed. Successful and failing examples of the latter solution are also presented.",
+    "authors": "James Cooper and Radu Nicolescu",
+    "doi": "10.1007/s41965-019-00013-2",
+    "key": "graphcol",
+    "title": "Alternative representations of P systems solutions to the graph colouring problem",
+    "venue": "Journal of Membrane Computing 1(2)",
+    "year": 2019
+  },
+  {
+    "abstract": "The Hamiltonian Cycle Problem (HCP) and Travelling Salesman Problem (TSP) are long-standing and well-known NP-hard problems. The HCP is concerned with finding paths through a given graph such that those paths visit each node exactly once after the start, and end where they began (i.e., Hamiltonian cycles). The TSP builds on the HCP and is concerned with computing the lowest cost Hamiltonian cycle on a weighted (di)graph. Many solutions to these problems exist, including some from the perspective of P systems. For the TSP however, almost all these papers have combined membrane computing with other approaches for approximate solution algorithms, which is surprising given the plethora of P systems solutions to the HCP. A recent paper presented a brute-force style P systems solution to the TSP with a time complexity of O(n2), exploiting the ability of P systems to reduce time complexity in exchange for space complexity, but the resultant system had a fairly high number of rules, around 50. Inspired by this paper, and seeking a more concise representation of an exact brute-force TSP algorithm, we have devised a P systems algorithm based on cP systems (P systems with Complex Objects) which requires five rules and takes n + 3 steps. We first provide some background on cP systems and demonstrate a fast new cP systems method to find the minimum of a multiset, then describe our solution to the HCP, and build on that for our TSP algorithm. This paper describes said algorithms, and provides an example application of our TSP algorithm to a given graph and a digraph variant.",
+    "authors": "James Cooper and Radu Nicolescu",
+    "doi": "10.3233/FI-2019-1760",
+    "key": "tsp",
+    "title": "The Hamiltonian Cycle and Travelling Salesman Problems in cP Systems",
+    "venue": "Fundamenta Informaticae 164(2-3)",
+    "year": 2019
+  },
+  {
+    "abstract": "Many approaches to simplifying/enabling the use of parallelism in programming tasks exist. A substantial number of those concentrate solely either on data-parallelism or fork-join-based task-parallelism. Concurrent ML is an alternative approach based around the concept of lightweight individual sub-processes synchronously exchanging messages. This work explores the usefulness of the CML approach in image processing, by applying it to the basic median filter operation and contrasting it with other simple implementations. The results strongly suggest that it is a comparatively poor fit to such an operation, with the one slight advantage of apparently having better peak memory requirements. It is not clear, however, how efficient are either the algorithm implementation or the library it is based on.",
+    "authors": "James Cooper",
+    "doi": "10.1109/IVCNZ.2018.8634712",
+    "key": "median-cml",
+    "title": "Concurrent ML as an Alternative Parallel Programming Style for Image Processing",
+    "venue": "2018 International Conference on Image and Vision Computing New Zealand (IVCNZ)",
+    "year": 2018
+  },
+  {
+    "abstract": "We propose here a first attempt at meta-scale mapping for long-term marine ecosystem management by pro- totyping, advancing and applying an intelligent vision system to map the marine estate. We will offer a first glimpse at data collection that crosses scales using IR, colour and depth imagery data from the millimetric to the metric scale. We used proprietary hardware and algorithms to look at the activity of Polychaete worms (a recognized indicator of a healthy estuary environment) across spatial, temporal and physical scales, from micro to macro level. While our estimation of worm counts correlated weakly with manual expert ground truth, our system allowed a scaling of worm activity at various levels, which is a first attempt at marine ecosystem meta-scale mapping capabilities. The field investigations took place on a stretch of intertidal area in the Auckland Region near the Leigh Marine Laboratory, which allows easy access to a typical marine ecosystem, ensures natural illumination, and is rich in complex interactions in the underwater biotic/abiotic interface.",
+    "authors": "Arabella Anderson et al.",
+    "doi": "10.1109/IVCNZ.2017.8402506",
+    "key": "estuary1",
+    "title": "A multi-scale framework for the automated surveying of the Whangateau estuary using off-the-shelf equipment",
+    "venue": "2017 International Conference on Image and Vision Computing New Zealand (IVCNZ)",
+    "year": 2017
+  },
+  {
+    "abstract": "Direct enforcement of security in personal property by creditors is primarily governed in New Zealand by three statutes, depending on the details of the security: the Personal Property Securities Act 1999, the Property Law Act 2007 and the Credit (Repossession) Act 1997. These statutes do not always fit together neatly, arguably without benefit, and this article will critique some of the differences between the statutes, and suggest some possible improvements that could be made. Some familiarity with the three Acts is assumed.",
+    "authors": "James Cooper",
+    "key": "nzblq",
+    "title": "Direct Enforcement of Security in Personal Property in New Zealand: Unhelpful Differences Between Acts",
+    "venue": "New Zealand Business Law Quarterly 19(1)",
+    "year": 2013
+  }
+]

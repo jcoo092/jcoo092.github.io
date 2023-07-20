@@ -1,0 +1,25 @@
+<div>
+    <ul>
+        {{ range $pub := (sort (index $.Site.Data "publications") "year" "desc") }}
+        <li>
+            <b>{{ index $pub "title" }}</b>
+            <br/>
+            {{ index $pub "authors" }}
+            <br/>
+            <em>{{index $pub "venue" }}.  {{index $pub "year" }}.</em>
+            <br/>
+            {{ $doi := index $pub "doi" }}
+            DOI: <a href="https://doi.org/{{ $doi }}">{{ $doi }}</a>
+            <br/>
+            <details>
+                <summary>Abstract</summary>
+                <blockquote>
+                    {{ index $pub "abstract" }}
+                </blockquote>
+            </details>
+            {{ $key := index $pub "key" }}
+            <a href="{{ .Site.BaseURL }}/publications/{{ $key }}.bib">bibtex</a>
+        </li>
+        {{ end }}
+    </ul>
+</div>
