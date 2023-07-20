@@ -6,19 +6,21 @@
             <br/>
             {{ index $pub "authors" }}
             <br/>
-            <em>{{index $pub "venue" }}.  {{index $pub "year" }}.</em>
+            <em>{{index $pub "venue" }}. {{index $pub "year" }}.</em>
             <br/>
-            {{ $doi := index $pub "doi" }}
-            DOI: <a href="https://doi.org/{{ $doi }}">{{ $doi }}</a>
+            {{ with $doi := index $pub "doi" }}
+                DOI: <a href="https://doi.org/{{ $doi }}">{{ $doi }}</a>
             <br/>
+            {{ end }}
             <details>
                 <summary>Abstract</summary>
                 <blockquote>
                     {{ index $pub "abstract" }}
                 </blockquote>
             </details>
-            {{ $key := index $pub "key" }}
-            <a href="{{ .Site.BaseURL }}/publications/{{ $key }}.bib">bibtex</a>
+            {{ with $key := index $pub "key" }}
+                <a href="{{ $.Site.BaseURL }}/publications/{{ $key }}.bib">bibtex</a>
+            {{ end }}
         </li>
         {{ end }}
     </ul>
