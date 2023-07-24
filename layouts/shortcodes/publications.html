@@ -9,7 +9,7 @@
             <em>{{index $pub "venue" }}. {{index $pub "year" }}.</em>
             <br/>
             {{ with $doi := index $pub "doi" }}
-                DOI: <a href="https://doi.org/{{ $doi }}">{{ $doi }}</a>
+            DOI: <a href="https://doi.org/{{ $doi }}">{{ $doi }}</a>
             <br/>
             {{ end }}
             <details>
@@ -19,7 +19,7 @@
                 </blockquote>
             </details>
             {{ with $key := index $pub "key" }}
-                <a href="{{ $.Site.BaseURL }}/publications/{{ $key }}.bib">bibtex</a>
+            <a href="{{ $.Site.BaseURL }}/publications/{{ $key }}.bib">bibtex</a>
             {{ end }}
         </li>
         {{ end }}
