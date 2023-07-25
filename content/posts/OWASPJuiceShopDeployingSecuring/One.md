@@ -68,14 +68,15 @@ I'm very open to suggestions of specific other tools to explore!
 ## Approximate Posts Plan
 
 1. This post.  Kicking off the whole thing by stating my goals.
-2. Deploying into AWS, the most basic way possible.
-3. Deploying into AWS using alternative methods.
-4. Deploying into AWS using IaC such as Terraform or Pulumi.
-5. Threat modelling the Juice Shop.
-6. Experimenting with SAST offerings.
-7. Experimenting with DAST.
-8. Cloud security.
-9. SBOMS & SLSA.
+2. [Difficulties I encountered getting started with AWS.](OnePointFive)
+3. Deploying into AWS, the most basic way(s) possible.
+4. Deploying into AWS using alternative method(s).
+5. Deploying into AWS using IaC such as Terraform, Pulumi or AWS CDK.
+6. Threat modelling for the Juice Shop.
+7. Experimenting with SAST offerings.
+8. Experimenting with DAST.
+9. Cloud security (e.g. WAFs).
+10. SBOMS & SLSA.
 
 I fully expect this plan to be revised as I go.  Moreover, as blog posts are published, I shall (try to remember to) update the plan with links to the new posts.
 

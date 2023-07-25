@@ -59,7 +59,7 @@ it:
 
 Precisely __nothing__ about where to find the relevant credentials. Moreover, when I eventually discovered after
 searching through the AWS documentation that you can apparently find CLI credentials on the first page you see when you
-log in, I couldn't figure out how to get back to that page. Eventually, I logged back and back in (which seemed like it
+log in, I couldn't figure out how to get back to that page. Eventually, I logged out and back in (which seemed like it
 almost wasn't going to work, yet again...). That showed me a screen which said I could look up credentials for command
 line access, but it appeared that the only credentials I could access there were the ones for the root user account.
 Given that this is new-user-onboarding documentation that AWS themselves point you to, it's rather rubbish, quite
@@ -83,7 +83,8 @@ start, while the CLI tool waited for a response from the API. I just gave up in 
 
 Fortunately, it seemed like I could copy-paste stuff out of the web portal with the admin creds directly into the
 configuration file, and that _seemed_ to work—though I also had to copy in a 'session token' field, of which no mention
-is made in the walkthrough. It was absolute nightmare just to get myself set up on the basics, however, especially when
+is made in the walkthrough. It was an absolute nightmare just to get myself set up on the basics, however, especially
+when
 I FOLLOWED THE DARN AWS BEGINNER GUIDE AND IT DIDN'T FREAKING WORK.
 
 All in all, a very poor first impression for getting myself set up independently on AWS. Honestly, if it weren't the
@@ -107,7 +108,7 @@ example:
   you to copy and paste doesn't seem to work anymore. As at the moment of writing, I'm unsure how I can observe what's
   happening on the Lightsail server to find out what went wrong. I presume that it's some sort of drift between versions
   of the LAMP Lightsail blueprint or the sample application that the tutorial tells you to clone. I don't know nearly
-  enough about LAMP-stack applications to make a guess at what the issue might be.[^lightsail]
+  enough about LAMP-stack applications to make a guess at what the issue might be.[^lightsail][^point-and-click-lamp]
 
 - On the [Cloud Essentials page](https://aws.amazon.com/getting-started/cloud-essentials/), one of the sample topics
   under 'Launch your first app' says "Getting Started with .NET Development on AWS with Visual Studio 2019". VS 2022 has
@@ -123,7 +124,7 @@ example:
   introduce [PEP 668](https://peps.python.org/pep-0668/). It's a worthy goal on Debian's part, but unfortunately it does
   introduce a whole bunch of pain in the neck when I just want to follow a tutorial.
   Trying a user installation by appending the `--user` flag didn't help. I tried the suggested `--break-system-packages`
-  flag to pass to pip on the failing `RUN` command in the Dockerfile, but even that didn't work fully. It failed on a
+  flag to pass to pip on the failing `RUN` command in the Dockerfile, but even that didn't work fully—it failed on a
   subsequent step. In the end, using `--break-system-packages` and specifying `--python python3` to `pipenv` seemed to
   do the trick. Fortunately, it was largely much smoother sailing after that.
   At least, until stage 4, when they completely missed out the part where you need to use the updated container image
@@ -133,6 +134,9 @@ example:
 [^lightsail]:  It appears that quite possibly that tutorial has been superseded
 by [this one](https://aws.amazon.com/tutorials/deploy-webapp-lightsail/) (which also seems to be a much better
 tutorial), but the older tutorial was the one that I was pointed to out of the gate when I had just signed up to AWS.
+[^point-and-click-lamp]:  I eventually stumbled across yet another tutorial, which seems to be a point-and-click
+equivalent to this first tutorial. Honestly, it seems like it's probably a much better resource given that the whole
+thing is just about deploying a pre-formed LAMP-stack instance to Lightsail.
 [^lightsail2]:  Actually, they did eventually get to that, but not after telling you to note that the container was
 being deployed, meaning I had to infer I was already supposed to have done that. It looks like a copy-paste error. Does
 nobody proofread these things?
