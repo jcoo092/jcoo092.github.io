@@ -2,20 +2,21 @@
 Title: Deploying Then Securing the OWASP Juice Shop, Part One-Point-Five of ?
 Lead: Difficulties getting started with AWS
 date: 2023-07-24
-draft: true
+draft: false
 Tags:
 
   - AWS
   - Cloud
   - Deployment
   - Documentation
+  - Gripes
 ---
 
 # Difficulties getting started with AWS
 
 ## Summary
 
-A short overview of the _many_ issues I encountered when trying to get myself up and running with AWS.
+A short overview of some of the _many_ issues I encountered when trying to get myself up and running with AWS.
 
 ## AWS Doesn't Like Itself?
 
@@ -124,11 +125,17 @@ example:
   Trying a user installation by appending the `--user` flag didn't help. I tried the suggested `--break-system-packages`
   flag to pass to pip on the failing `RUN` command in the Dockerfile, but even that didn't work fully. It failed on a
   subsequent step. In the end, using `--break-system-packages` and specifying `--python python3` to `pipenv` seemed to
-  do the trick.  Fortunately, it was largely much smoother sailing after that.
+  do the trick. Fortunately, it was largely much smoother sailing after that.
+  At least, until stage 4, when they completely missed out the part where you need to use the updated container image
+  that was just pushed to Lightsail to do a second deployment. It was trivial to change the previous instruction
+  appropriately, but they didn't even say to do it.[^lightsail2]
 
 [^lightsail]:  It appears that quite possibly that tutorial has been superseded
 by [this one](https://aws.amazon.com/tutorials/deploy-webapp-lightsail/) (which also seems to be a much better
 tutorial), but the older tutorial was the one that I was pointed to out of the gate when I had just signed up to AWS.
+[^lightsail2]:  Actually, they did eventually get to that, but not after telling you to note that the container was
+being deployed, meaning I had to infer I was already supposed to have done that. It looks like a copy-paste error. Does
+nobody proofread these things?
 
 ## But You Claim You Did That Training?
 
@@ -142,4 +149,9 @@ apparently can't keep its introductory material up to date, what hope does an ou
 
 ## Conclusion
 
-I found that many of the AWS introductory training materials and documentation were, at best, badly outdated.  In some instances, they rather seemed to assume that someone was already an AWS expert.  It was not a very good impression at all.  One positive thing I will say about the tutorials I saw, however, was that they pretty much all ended with cleaning up whatever resources that were stood up during the tutorial.  I imagine that they probably do it so they don't need to deal with a legion of practice instances doing nothing for nobody, but it does help prevent people suddenly getting billed for something they have forgotten about down the line.
+I found that many of the AWS introductory training materials and documentation were, at best, badly outdated. In some
+instances, they rather seemed to assume that someone was already an AWS expert. It was not a very good impression at
+all. One positive thing I will say about the tutorials I saw, however, was that they pretty much all ended with cleaning
+up whatever resources that were stood up during the tutorial. I imagine that they probably do it so they don't need to
+deal with a legion of practice instances doing nothing for nobody, but it does help prevent people suddenly getting
+billed for something they have forgotten about down the line.
