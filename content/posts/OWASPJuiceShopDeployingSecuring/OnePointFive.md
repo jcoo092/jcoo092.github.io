@@ -4,7 +4,7 @@ Lead: Difficulties getting started with AWS
 date: 2023-07-24
 draft: false
 Tags:
-
+  
   - AWS
   - Cloud
   - Deployment
@@ -84,8 +84,7 @@ start, while the CLI tool waited for a response from the API. I just gave up in 
 Fortunately, it seemed like I could copy-paste stuff out of the web portal with the admin creds directly into the
 configuration file, and that _seemed_ to work—though I also had to copy in a 'session token' field, of which no mention
 is made in the walkthrough. It was an absolute nightmare just to get myself set up on the basics, however, especially
-when
-I FOLLOWED THE DARN AWS BEGINNER GUIDE AND IT DIDN'T FREAKING WORK.
+when I FOLLOWED THE DARN AWS BEGINNER GUIDE AND IT DIDN'T FREAKING WORK.
 
 All in all, a very poor first impression for getting myself set up independently on AWS. Honestly, if it weren't the
 800-pound gorilla[^armstrong] of cloud services, that would have been enough to make me run in the other direction and
@@ -108,7 +107,7 @@ example:
   you to copy and paste doesn't seem to work anymore. As at the moment of writing, I'm unsure how I can observe what's
   happening on the Lightsail server to find out what went wrong. I presume that it's some sort of drift between versions
   of the LAMP Lightsail blueprint or the sample application that the tutorial tells you to clone. I don't know nearly
-  enough about LAMP-stack applications to make a guess at what the issue might be.[^lightsail][^point-and-click-lamp]
+  enough about LAMP-stack applications to make a guess at what the issue might be.[^lightsail],[^point-and-click-lamp]
 
 - On the [Cloud Essentials page](https://aws.amazon.com/getting-started/cloud-essentials/), one of the sample topics
   under 'Launch your first app' says "Getting Started with .NET Development on AWS with Visual Studio 2019". VS 2022 has

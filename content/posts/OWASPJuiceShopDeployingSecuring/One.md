@@ -8,9 +8,8 @@ Tags:
 - AWS
 - Cloud
 - Deployment
-- Juice Shop
 - OWASP
-
+- OWASP Juice Shop
 ---
 
 # Deploying, and then Securing, the OWASP Juice Shop Application
@@ -31,13 +30,13 @@ I shall deploy the deliberately-vulnerable OWASP Juice Shop application to 'the 
 >
 > Apart from the hacker and awareness training use case, pentesting proxies or security scanners can use Juice Shop as a “guinea pig”-application to check how well their tools cope with JavaScript-heavy application frontends and REST APIs.
 
-While sitting in one of many excellent talks at the recent [OWASP NZ Day 2023](https://appsec.org.nz/conference/), I had the idea of using something like Juice Shop as a ready-made web application for my own purposes.  Namely, to gain more hands-on experience actually deploying a web application into the cloud, *and* securing an existing deployed vulnerable application.  To be totally honest, the part about securing it is the thing which appeals to me more, but I figure I really should get more experience with deployment, also.
+While sitting in one of many excellent talks at the recent [OWASP NZ Day 2023](https://appsec.org.nz/conference/), I had the idea of using something like Juice Shop as a ready-made web application for my own purposes.  Namely, to gain more hands-on experience actually deploying a web application into the cloud, _and_ securing an existing vulnerable application.  To be totally honest, the part about securing it is the thing which appeals to me more, but I figure I really should get more experience with deployment, also.
 
 ### Why Juice Shop?
 
 Why did I pick the OWASP Juice Shop application to experiment with, you ask?  Basically, it met all the criteria I can think of.  It:
 
-- Is written in a popular programming language that's likely to be well-supported by various tools, Node.js.
+- Is written in a popular programming language that's likely to be well-supported by various tools, [Node.js](https://nodejs.org/en).
 - Is already a completed application, meaning that I can get straight onto deploying it, rather than spending time finishing the functionality first.
 - Is well-known and moreover has had considerable time devoted to exploring its various vulnerabilities, meaning that there are a lot of other references out there for me to use to learn about security issues that I don't spot myself.
 
@@ -68,15 +67,16 @@ I'm very open to suggestions of specific other tools to explore!
 ## Approximate Posts Plan
 
 1. This post.  Kicking off the whole thing by stating my goals.
-2. [Difficulties I encountered getting started with AWS.](OnePointFive)
+2. [Difficulties I encountered getting started with AWS.](../OnePointFive)
 3. Deploying into AWS, the most basic way(s) possible.
 4. Deploying into AWS using alternative method(s).
 5. Deploying into AWS using IaC such as Terraform, Pulumi or AWS CDK.
 6. Threat modelling for the Juice Shop.
-7. Experimenting with SAST offerings.
-8. Experimenting with DAST.
-9. Cloud security (e.g. WAFs).
-10. SBOMS & SLSA.
+7. Penetration Testing:  Amateur Hour
+8. Experimenting with SAST.
+9. Experimenting with DAST.
+10. Cloud security (e.g. WAFs).
+11. SBOMs & SLSA.
 
 I fully expect this plan to be revised as I go.  Moreover, as blog posts are published, I shall (try to remember to) update the plan with links to the new posts.
 
