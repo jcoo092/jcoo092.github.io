@@ -1,8 +1,0 @@
-<!--This whole thing is a giant hack to get around the fact that I can't really include italics for the "et al." in the JSON data.  My attempts to do so just get output directly -->
-{{- with $authors := . -}}
-    {{ if hasSuffix $authors "_et al._"}}
-        {{ substr $authors 0 -8 }} <em>et al.</em>
-    {{ else }}
-        {{ $authors }}
-    {{ end }}
-{{ end }}

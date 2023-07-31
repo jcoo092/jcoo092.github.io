@@ -4,7 +4,6 @@
         <b>{{ index $pub "title" }}</b>
         <p>
             {{ index $pub "authors" | markdownify }}
-            <!--        {{ partial "publications_authors.html" (index $pub "authors") }}-->
         </p>
         <p>
             <em>{{index $pub "venue" }}. {{index $pub "year" }}.</em>
