@@ -54,15 +54,6 @@
     "year": 2018
   },
   {
-    "abstract": "We propose here a first attempt at meta-scale mapping for long-term marine ecosystem management by pro- totyping, advancing and applying an intelligent vision system to map the marine estate. We will offer a first glimpse at data collection that crosses scales using IR, colour and depth imagery data from the millimetric to the metric scale. We used proprietary hardware and algorithms to look at the activity of Polychaete worms (a recognized indicator of a healthy estuary environment) across spatial, temporal and physical scales, from micro to macro level. While our estimation of worm counts correlated weakly with manual expert ground truth, our system allowed a scaling of worm activity at various levels, which is a first attempt at marine ecosystem meta-scale mapping capabilities. The field investigations took place on a stretch of intertidal area in the Auckland Region near the Leigh Marine Laboratory, which allows easy access to a typical marine ecosystem, ensures natural illumination, and is rich in complex interactions in the underwater biotic/abiotic interface.",
-    "authors": "Arabella Anderson et al.",
-    "doi": "10.1109/IVCNZ.2017.8402506",
-    "key": "estuary1",
-    "title": "A multi-scale framework for the automated surveying of the Whangateau estuary using off-the-shelf equipment",
-    "venue": "2017 International Conference on Image and Vision Computing New Zealand (IVCNZ)",
-    "year": 2017
-  },
-  {
     "abstract": "The Raspberry Pi single-board computer is a low cost, light weight system with small power requirements. It is an attractive embedded computer vision solution for many applications, including that of UAVs. Here, we focus on the Raspberry Pi 2 and demonstrate that, with the addition of a multiplexer and two camera modules, it is able to execute a full stereo matching pipeline, making it a suitable depth metering device for UAV usage. Our experimental results demonstrate that the proposed configuration is capable of performing reasonably accurate depth estimation for a system moving at a rate of 1 ms -1 when in good lighting conditions.",
     "authors": "James Cooper et al.",
     "doi": "10.23919/MVA.2017.7986854",
