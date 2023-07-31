@@ -10,6 +10,9 @@ Tags:
 - Deployment
 - OWASP Juice Shop
 - OWASP
+
+Series:
+  - Deploying Then Securing the OWASP Juice Shop
 ---
 # Deploying the Juice Shop to AWS, the manual way
 
@@ -22,6 +25,6 @@ The [OWASP](https://owasp.org/www-project-juice-shop/) [Juice Shop](https://gith
 [^whatsthedifference]:  To be completely honest, as at the time of writing I can't actually tell what the important differences are between Lightsail using containers, Elastic Beanstalk and App Runner.  Except that the first two qualify for a free tier for the first 12 months after account creation (transitively via Beanstalk, apparently), while the latter seemingly has no free tier.  I haven't worked with any of them in depth yet, though.
 [^novagrant]:  In fact, I couldn't find any reference to Vagrant in AWS' official documentation, and almost nothing mentioning Vagrant in the AWS Marketplace.  Mitchell Hashimoto himself seemingly used to provide an AWS plugin to Vagrant, but that has apparently been deprecated now.
 
-The OWASP Juice Shop itself, independent of deployment/development environment helpers, is a Node.js application.[nodeversion]  If one really wants to do it oneself, it is one of the easiest languages/ecosystems to do-it-yourself with.  
+The OWASP Juice Shop itself, independent of deployment/development environment helpers, is a Node.js application.[^nodeversion]  If one really wants to do it oneself, it is one of the easiest languages/ecosystems to do-it-yourself with.  
 
-[nodeversion]:  I targeted Node.js 18, since it was listed as the latest version of Node.js that was still under support by both Node.js and Juice Shop.  I actually suspect the table listing the supported versions that I saw was probably out-of-date, but I figured I should just stick with the documentation.
+[^nodeversion]:  I targeted Node.js 18, since it was listed as the latest version of Node.js that was still under support by both Node.js and Juice Shop.  I actually suspect the table listing the supported versions that I saw was probably out-of-date, but I figured I should just stick with the documentation.

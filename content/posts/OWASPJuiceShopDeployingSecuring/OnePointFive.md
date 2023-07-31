@@ -10,6 +10,9 @@ Tags:
   - Deployment
   - Documentation
   - Gripes
+
+Series:
+  - Deploying Then Securing the OWASP Juice Shop
 ---
 
 # Difficulties getting started with AWS

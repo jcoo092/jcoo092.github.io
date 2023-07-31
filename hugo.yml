@@ -20,10 +20,10 @@ params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: James Cooper, Ph.D.
   description: "Computer scientist, software developer/programmer, application security enthusiast."
-  keywords: [Blog, CV, PaperMod]
+  keywords: [ Blog, CV, PaperMod ]
   author: James Cooper
   # author: ["Me", "You"] # multiple authors
-  images: ["<link or path of image for opengraph, twitter-cards>"]
+  images: [ "<link or path of image for opengraph, twitter-cards>" ]
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
@@ -45,7 +45,7 @@ params:
   tocopen: false
 
   assets:
-    disableHLJS: true # to disable highlight.js
+    disableHLJS: false # to disable highlight.js
     # disableFingerprinting: true
     # favicon: "<link / abs url>"
     # favicon16x16: "<link / abs url>"
@@ -89,7 +89,7 @@ params:
       url: "https://orcid.org/0000-0001-9954-3280"
     - name: Rss
       url: "index.xml"
-      
+
   cover:
     hidden: true # hide everywhere but not in structured data
     hiddenInList: true # hide on list pages and home
@@ -109,7 +109,7 @@ params:
     distance: 1000
     threshold: 0.4
     minMatchCharLength: 0
-    keys: ["title", "permalink", "summary", "content"]
+    keys: [ "title", "permalink", "summary", "content" ]
 menu:
   main:
     - identifier: about
@@ -132,20 +132,24 @@ menu:
       name: Publications
       url: /publications/
       weight: 30
+    - identifier: series
+      name: Series
+      url: /series/
+      weight: 40
     #- identifier: example
     #  name: example.org
     #  url: https://example.org
     #  weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
-pygmentsUseClasses: true
-markup:
-  highlight:
-    noClasses: false
-    # anchorLineNos: true
-    # codeFences: true
-    # guessSyntax: true
-    # lineNos: true
-    # style: monokai
+#pygmentsUseClasses: true
+#markup:
+#  highlight:
+#    noClasses: false
+#    anchorLineNos: true
+#    codeFences: true
+#    guessSyntax: true
+#    lineNos: true
+#    style: monokai
 
 privacy:
   disqus:
@@ -160,3 +164,8 @@ privacy:
     disable: true
   youtube:
     disable: true
+
+taxonomies:
+#  category: categories
+  series: series
+  tag: tags
