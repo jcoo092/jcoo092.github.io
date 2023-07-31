@@ -1,7 +1,7 @@
 [
   {
     "abstract": "P systems have been known to provide efficient polynomial (often linear) deterministic solutions to hard problems. In particular, cP systems have been shown to provide very crisp and efficient solutions to such problems, which are typically linear with small coefficients. Building on a recent result by Henderson et al., which solves SAT in square-root-sublinear time, this paper proposes an orders-of-magnitude-faster solution, running in logarithmic time, and using a small fixed-sized alphabet and ruleset (25 rules). To the best of our knowledge, this is the fastest deterministic solution across all extant P system variants. Like all other cP solutions, it is a complete solution that is not a member of a uniform family (and thus does not require any preprocessing). Consequently, according to another reduction result by Henderson et al., cP systems can also solve k-colouring and several other NP-complete problems in logarithmic time.",
-    "authors": "Radu Nicolescu et al.",
+    "authors": "Radu Nicolescu _et al._",
     "doi": "10.3390/axioms11020066",
     "key": "logsat",
     "title": "Logarithmic SAT Solution with Membrane Computing",
@@ -19,7 +19,7 @@
   },
   {
     "abstract": "We introduce a multiscale approach to population estimation of maldanid polychaetes on intertidal sandflats. Animals that live in marine sediments play important roles in ecosystem processes and are frequently the target of environmental monitoring but are notoriously time consuming to sample. Our goal was to enable the mapping of patterns of abundance of estuary lifeforms over long tracks at spatial scales and temporal frequencies not amenable by traditional quantitative methods. At each of four study sites of 9 m2, we used several forms of imagery at increasing resolution, obtained with a low-cost camera system and UAVs, to estimate the presence of the maldanid polychaete macroclymenella stewartensis. This involved defining the micro-scale topographic features on the sediment surface linked to the worms feeding activity. At each site, counts of polychate faecal mounds were estimated by quadrat counts. High resolution imagery was used to construct 3D depth maps using Structure from Motion, which were then segmented to obtain a local count of M.stewartensis faecal mounds. Texture features were then extracted from the high resolution imagery and used to create a linear model using the local counts. Low resolution imagery was then scaled, texture features extracted and passed into the linear model to provide count estimates with an error of 4% at best and 35% at worst for best orientation. The results demonstrated the potential of our multiscale texture based approach to model data at scale on sediment topographic features linked to the activity of functionally important species. These methods in turn help to advance ecological research and estimate ecosystem services potential as well as provide an additional tool for large scale rapid ecological assessment and estuarine management.",
-    "authors": "Mihailo Azhar et al.",
+    "authors": "Mihailo Azhar _et al._",
     "doi": "10.1016/j.isprsjprs.2020.09.013",
     "key": "estuary2",
     "title": "A framework for multiscale intertidal sandflat mapping: A case study in the Whangateau estuary",
@@ -55,7 +55,7 @@
   },
   {
     "abstract": "The Raspberry Pi single-board computer is a low cost, light weight system with small power requirements. It is an attractive embedded computer vision solution for many applications, including that of UAVs. Here, we focus on the Raspberry Pi 2 and demonstrate that, with the addition of a multiplexer and two camera modules, it is able to execute a full stereo matching pipeline, making it a suitable depth metering device for UAV usage. Our experimental results demonstrate that the proposed configuration is capable of performing reasonably accurate depth estimation for a system moving at a rate of 1 ms -1 when in good lighting conditions.",
-    "authors": "James Cooper et al.",
+    "authors": "James Cooper _et al._",
     "doi": "10.23919/MVA.2017.7986854",
     "key": "rpi2",
     "title": "A Raspberry Pi 2-based stereo camera depth meter",

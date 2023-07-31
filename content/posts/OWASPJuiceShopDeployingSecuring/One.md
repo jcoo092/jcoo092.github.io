@@ -70,7 +70,7 @@ I'm very open to suggestions of specific other tools to explore!
 ## Approximate Posts Plan
 
 1. This post.  Kicking off the whole thing by stating my goals.
-2. [Difficulties I encountered getting started with AWS.](../OnePointFive)
+2. [Difficulties I encountered getting started with AWS.](../onepointfive)
 3. Deploying into AWS, the most basic way(s) possible.
 4. Deploying into AWS using alternative method(s).
 5. Deploying into AWS using IaC such as Terraform, Pulumi or AWS CDK.
