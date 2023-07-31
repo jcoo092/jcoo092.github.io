@@ -1,5 +1,32 @@
 [
   {
+    "abstract": "P systems have been known to provide efficient polynomial (often linear) deterministic solutions to hard problems. In particular, cP systems have been shown to provide very crisp and efficient solutions to such problems, which are typically linear with small coefficients. Building on a recent result by Henderson et al., which solves SAT in square-root-sublinear time, this paper proposes an orders-of-magnitude-faster solution, running in logarithmic time, and using a small fixed-sized alphabet and ruleset (25 rules). To the best of our knowledge, this is the fastest deterministic solution across all extant P system variants. Like all other cP solutions, it is a complete solution that is not a member of a uniform family (and thus does not require any preprocessing). Consequently, according to another reduction result by Henderson et al., cP systems can also solve k-colouring and several other NP-complete problems in logarithmic time.",
+    "authors": "Radu Nicolescu et al.",
+    "doi": "10.3390/axioms11020066",
+    "key": "logsat",
+    "title": "Logarithmic SAT Solution with Membrane Computing",
+    "venue": "Axioms 11(2)",
+    "year": 2022
+  },
+  {
+    "abstract": "We propose neighbourhood message passing (NMP), an abstract framework for loopy belief propagation (BP), as used in stereo matching (SM). We focus here on generic inter-processing-element messaging over a two-dimensional square grid, but our results apply to lattices of any shape through minimal modification. Specifically, this paper investigates three cP Systems (a type of P systems) models for loopy BP: One based on the classical globally synchronous BP, and two novel variants, (totally) asynchronous and locally synchronous. To model the classic globally synchronous NMP, we extend cP systems messaging rules with antiport features, similar to those used in other P systems. Next, we propose a novel version of NMP by extending it to the asynchronous case. We then derive a locally synchronous NMP variant, which arises naturally as a middle ground between our asynchronous and the classical globally synchronous variants. To clarify the operation of the asynchronous NMP system, we supply a short worked example. Following this, we analyse the proposed asynchronous system and prove that it uses precisely the same number of messages as the globally synchronous variant. We further put forward some runtime and correctness conjectures. Furthermore, we experimentally investigate the asynchronous system’s run-time characteristics. Messages spread from a given location on the lattice similarly in both the asynchronous and synchronous versions, even in the face of slow channels. We also conduct computer experiments and find that, in practice, the locally synchronous system is usually faster than the traditional globally synchronous approach (about 5–13%), and the asynchronous system is typically quicker still (often by approximately another 10%). We thus believe that it is a promising novel approach for faithful implementations of NMP and should be preferred.",
+    "authors": "James Cooper and Radu Nicolescu",
+    "doi": "10.1007/s41965-022-00097-3",
+    "key": "nmp",
+    "title": "Neighbourhood message passing computation on a lattice with cP systems",
+    "venue": "Journal of Membrane Computing 4",
+    "year": 2022
+  },
+  {
+    "abstract": "We introduce a multiscale approach to population estimation of maldanid polychaetes on intertidal sandflats. Animals that live in marine sediments play important roles in ecosystem processes and are frequently the target of environmental monitoring but are notoriously time consuming to sample. Our goal was to enable the mapping of patterns of abundance of estuary lifeforms over long tracks at spatial scales and temporal frequencies not amenable by traditional quantitative methods. At each of four study sites of 9 m2, we used several forms of imagery at increasing resolution, obtained with a low-cost camera system and UAVs, to estimate the presence of the maldanid polychaete macroclymenella stewartensis. This involved defining the micro-scale topographic features on the sediment surface linked to the worms feeding activity. At each site, counts of polychate faecal mounds were estimated by quadrat counts. High resolution imagery was used to construct 3D depth maps using Structure from Motion, which were then segmented to obtain a local count of M.stewartensis faecal mounds. Texture features were then extracted from the high resolution imagery and used to create a linear model using the local counts. Low resolution imagery was then scaled, texture features extracted and passed into the linear model to provide count estimates with an error of 4% at best and 35% at worst for best orientation. The results demonstrated the potential of our multiscale texture based approach to model data at scale on sediment topographic features linked to the activity of functionally important species. These methods in turn help to advance ecological research and estimate ecosystem services potential as well as provide an additional tool for large scale rapid ecological assessment and estuarine management.",
+    "authors": "Mihailo Azhar et al.",
+    "doi": "10.1016/j.isprsjprs.2020.09.013",
+    "key": "estuary2",
+    "title": "A framework for multiscale intertidal sandflat mapping: A case study in the Whangateau estuary",
+    "venue": "ISPRS Journal of Photogrammetry and Remote Sensing 169",
+    "year": 2020
+  },
+  {
     "abstract": "This paper first presents a simulation of the simple kernel P systems solution to the graph 3-colouring problem presented in a previous paper by Gheorghe et al., implemented in a programming style named Concurrent ML, which is based on the concept of synchronous communication between logical processing elements. This paper then presents and informally analy- ses an alternative compact single-cell solution to the same problem using P systems with compound objects (cP systems), which has the benefit of naturally adapting to the use of any number of colours greater than zero—only the specified colour symbols need to be changed. Successful and failing examples of the latter solution are also presented.",
     "authors": "James Cooper and Radu Nicolescu",
     "doi": "10.1007/s41965-019-00013-2",
@@ -33,6 +60,15 @@
     "key": "estuary1",
     "title": "A multi-scale framework for the automated surveying of the Whangateau estuary using off-the-shelf equipment",
     "venue": "2017 International Conference on Image and Vision Computing New Zealand (IVCNZ)",
+    "year": 2017
+  },
+  {
+    "abstract": "The Raspberry Pi single-board computer is a low cost, light weight system with small power requirements. It is an attractive embedded computer vision solution for many applications, including that of UAVs. Here, we focus on the Raspberry Pi 2 and demonstrate that, with the addition of a multiplexer and two camera modules, it is able to execute a full stereo matching pipeline, making it a suitable depth metering device for UAV usage. Our experimental results demonstrate that the proposed configuration is capable of performing reasonably accurate depth estimation for a system moving at a rate of 1 ms -1 when in good lighting conditions.",
+    "authors": "James Cooper et al.",
+    "doi": "10.23919/MVA.2017.7986854",
+    "key": "rpi2",
+    "title": "A Raspberry Pi 2-based stereo camera depth meter",
+    "venue": "Fifteenth IAPR International Conference on Machine Vision Applications",
     "year": 2017
   },
   {

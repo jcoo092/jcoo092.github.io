@@ -2,7 +2,7 @@
 NavbarTitle: Publications
 Order: 4
 Title: Selected Publications
-Description: A Listing of My Most Interesting Research Papers
+Description: A listing of some of my more interesting papers
 ---
 
 {{< publications >}}
