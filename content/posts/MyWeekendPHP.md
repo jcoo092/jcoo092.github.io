@@ -13,7 +13,7 @@ Tags:
 
 # My Weekend With PHP
 
-For certain reasons, I spent most of this weekend diving into [PHP](https://www.php.net/), a language of which I have been aware for a _long_ time but never actually touched until now.  In case you somehow are reading this yet have never heard of PHP, it summarises itself thusly:
+For certain reasons, I spent most of this weekend ~~diving into~~ scratching the surface of [PHP](https://www.php.net/), a language of which I have been aware for a _long_ time but never actually touched until now.  In case you somehow are reading this yet have never heard of PHP, it summarises itself thusly:
 
 > A popular general-purpose scripting language that is especially suited to web development.
 > Fast, flexible and pragmatic, PHP powers everything from your blog to the most popular websites in the world.
