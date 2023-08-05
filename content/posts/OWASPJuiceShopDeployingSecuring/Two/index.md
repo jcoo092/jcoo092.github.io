@@ -2,7 +2,7 @@
 Title: Deploying Then Securing the OWASP Juice Shop, Part Two of ? 
 Lead: Manual deployment to AWS
 date: 2023-08-03
-draft: true
+draft: false
 Tags:
 
 - AWS
@@ -168,3 +168,7 @@ Let's see if this does any better.  The output from the terminal after running t
 {{< figure src="OJS_Lightsail_Instance_Bitnami_NodeJS_frontpage.png" title="The Bitnami Node.js introductory front page, seen when accessing the assigned IP address via HTTP on port 80." alt="A screenshot of the welcome page for the Bitnami Node.js AMI." >}}
 
 Anyway, now that I have confirmed that I can run the OJS in a regular Lightsail container (completely manually, at least), I'll delete it and move on to trying the next approach.
+
+## The Next Deployment Approach
+
+To be finished...
