@@ -18,6 +18,8 @@ Series:
 
 This post covers various attempts to deploy the OWASP Juice Shop (OJS) application on AWS.  Multiple approaches are trialled, with the comment element between them being that these are all fairly manual 'point-and-click' style methods.  Good for getting oneself up and running the first time, while getting to grips with AWS.  Not so good for reliable, reproducible deployments, however.  For the purposes of the remainder of this series of blog posts, I will be using OJS [v15.0.0](https://github.com/juice-shop/juice-shop/releases/tag/v15.0.0), which was the latest official release at the time I started.
 
+_Disclaimer:  I am_ not _an expert on AWS.  I am experimenting here to practice and get more experience with using AWS.  Everything I describe below may well be_ bad _practices, never mind simply not good practices.  You should use caution and good judgement when attempting to copy anything I have done here._
+
 ## Possible Juice Shop Deployment Methods
 
 The [OWASP](https://owasp.org/www-project-juice-shop/) [Juice Shop](https://github.com/juice-shop/juice-shop) project itself suggests a way to deploy the application.  Basically, stand up an [EC2](https://aws.amazon.com/ec2/) instance, pull in the OJS' Docker image, and fire it up.  The fact that it has a Docker image also means (so far as I can tell at this point) that there are _at least_ three more possible ways to deploy the application into AWS, using [Lightsail](https://aws.amazon.com/lightsail/), [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) or [App Runner](https://aws.amazon.com/apprunner/).[^whatsthedifference],[^actuallyfour]  There's also a [Vagrantfile](https://developer.hashicorp.com/vagrant/docs/vagrantfile), meaning that standing up a full self-contained VM for it should be reasonably simple, too—although, that's not _really_ Vagrant's intended use case.[^novagrant]  At the very least, the Vagrantfile should give a pretty good guide as to what you should do yourself to configure a fresh [Amazon Machine Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) to make it work with the OJS.  
@@ -65,6 +67,32 @@ docker run -d -p 80:3000 bkimminich/juice-shop
 {{< figure src="OJS_EC2_Instance_Creation_User_Script.png" title="Setting the commands to run when the EC2 instance is launched." alt="A screenshot showing some of the settings for a new AWS EC2 instance.  In particular, this screenshot shows the commands to be run when the instance launches." >}}
 
 Either way, it was running in the cloud.
+
+### Using a Load Balancer
+
+The above deployment worked, in that I could indeed reach an instance of OJS running in the cloud.  I am not at all happy with the fact that it is using HTTP, rather than HTTPS, though.  I could try to add in support for HTTPS to OJS (or, at least, figure out how to deploy it behind Nginx or something).  If I were planning to deploy it long-term onto my own server, that would probably be necessary.  There are two main problems with that, however:
+
+- It might be a lot of extra complexity orthogonal to the intended purpose of OJS.  I can't be bothered with all that right now.
+- I'm not even familiar with the codebase for OJS, so trying to retrofit HTTPS support for it would probably take me some considerable effort—and these blog posts already take me much longer than I would prefer.
+
+Since I'm experimenting in this post with deploying to AWS specifically, I might as well reach for an AWS-specific solution.  That, generally, means slapping a load balancer in front of OJS.  This load balancer both can act as a literal load balancer, divvying up requests between instances of a running application.  It can potentially also be used for multiple other purposes beyond that.  For one thing, you can create a private subnetwork in AWS (Amazon VPC), and make the load balancer the only public facing part of it.  You can also use it as your SSL termination proxy, and (as I understand it) the place where you deploy a web application firewall.  In fact, the first two of those additional purposes pretty closely match what the Lightsail container service (discussed below) provides automatically as part of its value proposition.  Essentially, putting a load balancer in front of your application lets you abstract over it and expose a tidy and rational interface to the outside, while you do whatever wackiness is needed behind the scenes.  An additional bonus is that, if I set it up correctly, I don't have to make a single change to OJS to get it all working properly, but only accessible via HTTPS.
+
+Of course, the updated picture isn't completely rosy.  Using a load balancer inherently means extra complexity, both in terms of AWS setup but also for the application itself in certain circumstances (mostly relating to whether the application itself needs to know where a request is coming from, I believe).  You also only have so much control over the configuration and behaviour of the load balancer.  For the majority of use cases, I'm pretty sure it won't make a blind bit of difference, but sometimes this might rear its ugly head.  For the current purpose of just doing a deployment proof-of-concept, I doubt that any of the extra drawbacks beyond the complexity will come into it.
+
+In AWS, the usual way to incorporate loading balancing is to use [Elastic Load Balancing](https://docs.aws.amazon.com/elasticloadbalancing/index.html).  More specifically, my understanding is that you should use an [Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/) by default (unless you know you need a different one).  Of course, the actual process to get everything set up is a little more complex than simply logging into AWS and telling it to do load balancing.
+
+There are _at least_ three components required to get this all up and running.  Namely
+
+- The EC2 instance running the OJS container, as before
+- A second EC2 instance, since it seems that the Application Load Balancer requires at least two running instances in separate Availability Zones.  This is likely extremely sensible for any application that is intended to be long-running, but not so relevant here.
+- The Application Load Balancer to sit between the EC2 instance and the wider internet
+- A Virtual Private Cloud that the EC2 instance sits inside, inaccessible to the outside world except by going through the load balancer, which is placed on the edge of the VPC.[^alreadyvpc]
+
+[^alreadyvpc]:  In fact, the original EC2 deployment also used a VPC.  Just, it used the default VPC that AWS creates and assigns automatically, meaning that there was zero configuration needed, and it just disappeared into the background. 
+
+#### Virtual Private Cloud Setup
+
+
 
 ## Lightsail
 

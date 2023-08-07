@@ -76,7 +76,7 @@ params:
   # home-info mode
   homeInfoParams:
     Title: "James Cooper, Ph.D."
-    Content: Computer scientist, software developer/programmer, application security enthusiast.  This site serves as a blog host and something of an online CV.
+    Content: Erstwhile computer scientist, software developer/programmer, application security enthusiast.  This personal site serves as a blog host and something of an online CV.
 
   socialIcons:
     - name: email
@@ -85,10 +85,10 @@ params:
       url: "https://github.com/jcoo092"
     - name: github
       url: "https://github.com/Jarak-Jakar"
-    - name: orcid
-      url: "https://orcid.org/0000-0001-9954-3280"
     - name: dev
       url: "https://dev.to/countable6374"
+    - name: orcid
+      url: "https://orcid.org/0000-0001-9954-3280"
     - name: googlescholar
       url: "https://scholar.google.com/citations?user=Q99mjokAAAAJ&hl=en&oi=sra"
     - name: Rss
