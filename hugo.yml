@@ -1,4 +1,4 @@
-baseURL: "https://jcoo092.github.io/"
+baseURL: "https://jamescooper.net.nz/"
 title: James Cooper, Ph.D.
 paginate: 10
 theme: PaperMod # pinned to using the v7.0 tagged commit
@@ -76,7 +76,7 @@ params:
   # home-info mode
   homeInfoParams:
     Title: "James Cooper, Ph.D."
-    Content: A small static website, intended to serve as a blog host and something of an online CV.
+    Content: Computer scientist, software developer/programmer, application security enthusiast.  This site serves as a blog host and something of an online CV.
 
   socialIcons:
     - name: email
@@ -87,6 +87,10 @@ params:
       url: "https://github.com/Jarak-Jakar"
     - name: orcid
       url: "https://orcid.org/0000-0001-9954-3280"
+    - name: dev
+      url: "https://dev.to/countable6374"
+    - name: googlescholar
+      url: "https://scholar.google.com/citations?user=Q99mjokAAAAJ&hl=en&oi=sra"
     - name: Rss
       url: "index.xml"
 
