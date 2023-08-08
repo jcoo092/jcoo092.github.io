@@ -76,7 +76,7 @@ params:
   # home-info mode
   homeInfoParams:
     Title: "James Cooper, Ph.D."
-    Content: Erstwhile computer scientist, software developer/programmer, application security enthusiast.  This personal site serves as a blog host and something of an online CV.
+    Content: "Erstwhile computer scientist, software developer/programmer, application security enthusiast.\n\n`DevSec(?:ops)?`\n\nThis personal site serves as a blog host and something of an online CV."
 
   socialIcons:
     - name: email

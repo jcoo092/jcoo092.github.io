@@ -92,6 +92,28 @@ There are _at least_ three components required to get this all up and running.  
 
 #### Virtual Private Cloud Setup
 
+Every AWS account [automatically gets](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) default VPCs in each region, with default subnets in each Availability Zone.  Since it might make something else more difficult to do in the future, I don't want to start fiddling with the default VPC for the region I use, however.  Thus, I will create a special-purpose VPC for this test deployment.  I will start with following the [example VPC for a test environment](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-example-dev-test.html), and then tweak the configuration from there as needed.  This basically just involves creating a single VPC with a single public subnet, into which an EC2 instance can be deployed.  It also largely involves simply accepting the defaults in the VPC creation web UI.
+
+{{< figure src="network-arrangement-diagram.png" title="AWS' conception of how the pieces of my new VPC fit together." alt="A screenshot of a diagram showing boxes connected by lines, where those boxes represent, from left to right, the new custom VPC, the VPC's subnet, the associated route table, and the associated network connection." >}}
+
+##### Redeploying to an EC2 instance
+
+As a first step to check that this new VPC does indeed work, I'll redo the steps for deploying the OJS into an EC2 instance, but using this VPC instead of the default one.  Weirdly, despite my having selected the dedicated OJS VPC, the interface still selected the default VPC's subnet.  I only realised this had happened when I tried to start the instance and the webform complained.  Furthermore, I clearly missed an important setting, because on starting up the instance I realised that there was no public IP address assigned.  This is, of course, eventually the intended behaviour (and is _definitely_ a more secure default than the opposite), but it caught me by surprise nevertheless.  I couldn't figure out how to reconfigure my running instance to get it to do automatic IPv4 assignment, so I ended up terminating it and starting again.  I'm certain there must be a proper way to do this, but it wasn't obvious to me.
+
+{{< figure src="Auto-assign_public_ip.png" title="Probably the bit I missed first time around." alt="A screenshot highlighting the 'auto-assign public IP address' option when launching a new EC2 instance." >}}
+
+At first, I puzzled over why I seemingly could not connect to this instance.  I had waited several minutes for the boot-up process to finish.  The monitoring showed that, most likely, the OJS Docker image had indeed been downloaded shortly after the instance started.  Not even a reboot fixed things.  I figured that maybe using the DNS name for it might not work immediately, since it could well take some time for DNS to propagate, but I would have thought that connecting to the IP address directly should be fine.  Eventually, I noticed that the inbound traffic rule on the associated security group permitted all protocols on all ports, but that it was restricted to other sources within the same security group.  Thus, I added another inbound rule permitting HTTP traffic from anywhere (to be removed again once I start using the load balancer, of course).
+
+In the end, I had to terminate the instance and start again before I could _finally_ connect to it via HTTP again.  I'm not sure what I could have done better, but almost certainly there was something.  The couple of issues described above are definitely traps for the unaware.  There's also definitely more complexity available to those who want to dig into it, but I'm not a networking guru, so I'm happy to go with defaults which _seem_ to work.  For example, you can fiddle with internet gateways for your VPC, but the default seemed to what I needed do I never dug further into it.
+
+{{< figure src="Create_load_balancer_option.png" title="Oh look.  How handy (in future)." alt="A screenshot highlighting an option to create a load balancer, presented immediately after launching a new EC2 instance." >}}
+
+#### Creating a Load Balancer
+
+Before I even start on creating the new load balancer, I apparently need to ensure that my VPC has _two_ Availability Zones set up (according to the [introductory documentation](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancer-getting-started.html#prerequisites)).  I originally set the custom OJS VPC up with only one, following the documentation for creating a VPC for a test environment.  Each subnet for a VPC is assigned to a specific AZ, so I would need two subnets under the VPC to make it all work, rather than the one that I have now.  Given that I don't plan to keep any of these resources around for long, I think I'll just use the VPC creation wizard to create a new VPC which has the two subnets for two AZs out of the box.  For this one, I set the number of _public_ subnets to zero, since I don't plan to access either of the EC2 instances directly.
+
+With that now in place, the next step is apparently to get two EC2 instances up and running.  As before, I'm just going to imitate the initial EC2 deployment into the VPC, but I very deliberately will not choose to have IPv4 addresses assigned.  These instances should _not_ be accessible from the outside world.  Best as I can tell, if I just stick with the default security group, which allows access via all protocols and ports but only from within the VPC, then when I go to use the load balancer everything should still "just work".
+
 
 
 ## Lightsail
