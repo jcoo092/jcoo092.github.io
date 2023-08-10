@@ -88,7 +88,7 @@ There are _at least_ three components required to get this all up and running.  
 - The Application Load Balancer to sit between the EC2 instance and the wider internet
 - A Virtual Private Cloud that the EC2 instance sits inside, inaccessible to the outside world except by going through the load balancer, which is placed on the edge of the VPC.[^alreadyvpc]
 
-[^alreadyvpc]:  In fact, the original EC2 deployment also used a VPC.  Just, it used the default VPC that AWS creates and assigns automatically, meaning that there was zero configuration needed, and it just disappeared into the background. 
+[^alreadyvpc]:  In fact, the original EC2 deployment also used a VPC.  Just, it used the default VPC that AWS creates and assigns automatically, meaning that there was zero configuration needed, and it disappeared into the background. 
 
 #### Virtual Private Cloud Setup
 
@@ -114,7 +114,21 @@ Before I even start on creating the new load balancer, I apparently need to ensu
 
 With that now in place, the next step is apparently to get two EC2 instances up and running.  As before, I'm just going to imitate the initial EC2 deployment into the VPC, but I very deliberately will not choose to have IPv4 addresses assigned.  These instances should _not_ be accessible from the outside world.  Best as I can tell, if I just stick with the default security group, which allows access via all protocols and ports but only from within the VPC, then when I go to use the load balancer everything should still "just work".
 
+##### Create a Target Group
 
+This bit basically bundles the EC2 instances up into a package that the load balancer can be pointed at, and seems to be a necessary step for setting up a load balancer.  There's not really much more to it than to choose the right VPC and then include the instances under it.
+
+##### Create and Configure an Application Load Balancer
+
+With the target group established (I'm not 100% clear on why they need to make them separate from the load balancers, but I'm sure there's a darn good reason), I can finally get to creating the load balancer itself.  One catch I discovered quickly into this process is that the VPC I set up for this can't be selected for the load balancer's network mapping.  As per the instructions, "Only VPCs with an internet gateway are enabled for selection."  It seemingly turns out that I still need an internet gateway even if I don't intend for the EC2 instances in the VPC to be accessible, which is different to my previous understanding of all this.  Fortunately, it seems that creating and attaching an internet gateway is a relatively trivial process.  IGs don't need configuration, and attaching them to a VPC is pretty much painless.
+
+Turns out (rather unsurprisingly, really) that as a flow-on effect from not creating the VPC with an internet gateway to begin with, the VPC's subnets are not appropriately configured to use the IG.  Thus, I need to update the subnets' route tables.  It wasn't immediately obvious how to configure the route table's appropriately, but fortunately I still had the previous working VPC/subnet/route table still hanging around.  From looking at that instance's subnet route table configuration, it seems that I should (probably) configure 0.0.0.0/0 to associate to the freshly-created IG from just above.  Beyond that, however, the rest of the load balancer configuration pretty much just follows the defaults, for now.  Importantly, it seems that the default load balancer setting just creates an HTTP endpoint, and _not_ and HTTPS one.
+
+Of course, there was one rather glaring issue with the two EC2 instances that I had started earlier...  Without an associated internet gateway, they had no access to the internet, and thus were unable to download the relevant Docker image, so there wasn't anything to note running inside them for the load balancer to forward requests to.  Given that the all-important user data script only seems to run on the first start-up, I had to go create new instances derived from the old ones, to try to make things work again.  This also meant that I had to go update the registered targets in the target group I created earlier, to encompass the new instances and exclude the old ones.  Sadly, this doesn't seem to have covered everything.  The target group continues to show both targets as unhealthy, despite having switched to the new instances and those instances showing as healthy in their own checks.  Moreover, those instances both appear not to have downloaded the Docker image (going by the inbound traffic volume metric).
+
+It would appear that I still haven't quite got all the settings correct.  My best _guess_ is that I didn't quite configure the inbound rules on the security group those instances use so that the target group/load balancer could actually talk to them.  To test that out, I tried adding in a new inbound rule to the security group, one which permits all traffic in.  That doesn't seem to help, however.  I noticed on the target group's monitoring that the number of requests recorded as received went up from zero, and instead of my browser just eventually timing out while trying to connect to the load balancer's DNS address, it now finishes quickly with a 502 "Bad Gateway" error.  Clearly, even though the EC2 instances are supposed to be private and inaccessible by the outside world, the associated security group still needs a rule to permit traffic in from the wider world.  No change to the health (or not) status of the hosts within the target group, though.  They're still marked as unhealthy.
+
+At this point, I'm rather stumped as to what the issue is, and I'm getting a bored with this whole rigmarole.  Since there's no actual need to get this working, I have decided at this point to give up on it _for the time being_.  I'll have to remember to come back to it all later on, but for now I just clean up all the non-default resources that I created.  If anybody out there knows what I did wrong, and more importantly what I should do differently, please let me know.  
 
 ## Lightsail
 
