@@ -1,7 +1,7 @@
 ---
 Title: Deploying Then Securing the OWASP Juice Shop, Part Two of ? 
 Lead: Manual deployment to AWS
-date: 2023-08-03
+date: 2023-08-10
 draft: false
 Tags:
 
@@ -33,7 +33,7 @@ The OJS itself, independent of deployment/development environment helpers, is a 
 [^nodeversion]:  I targeted Node.js 18, since it was listed as the latest version of Node.js that was still under support by both Node.js and OJS.  I actually suspect the table listing the supported versions that I saw was probably out-of-date, but I figured I should just stick with the documentation.  Plus, the Dockerfile in the OJS release I'm using still specifies the use of Node.js 18 images.
 [^dockercomposedbms]:  An excellent example of a well-put-together Docker Compose system for this sort of thing can be found in a [Containerised MISP distribution](https://github.com/NUKIB/misp) created by what I understand to be the Czech equivalent of the US' CISA.  It includes not only a running MISP, but the relevant backing MySQL and Redis containers, too.  I used it for some local testing against a live MISP instance while at Cosive, and it worked really well. 
 
-## First Look
+## First Look at the OWASP Juice Shop
 
 Before trying to deploy OJS online, it seems like a good idea to try to run it locally and get some impression of what a running instance should look like.  To that end, I decided to download a copy of the official Docker image, and run that according to the provided instructions.  A simple pull of the image and a `docker run --rm -p 3000:3000 bkimminich/juice-shop:v15.0.0` later, I have OJS running locally.  Et voilà 🎉
 
@@ -126,9 +126,11 @@ Turns out (rather unsurprisingly, really) that as a flow-on effect from not crea
 
 Of course, there was one rather glaring issue with the two EC2 instances that I had started earlier...  Without an associated internet gateway, they had no access to the internet, and thus were unable to download the relevant Docker image, so there wasn't anything to note running inside them for the load balancer to forward requests to.  Given that the all-important user data script only seems to run on the first start-up, I had to go create new instances derived from the old ones, to try to make things work again.  This also meant that I had to go update the registered targets in the target group I created earlier, to encompass the new instances and exclude the old ones.  Sadly, this doesn't seem to have covered everything.  The target group continues to show both targets as unhealthy, despite having switched to the new instances and those instances showing as healthy in their own checks.  Moreover, those instances both appear not to have downloaded the Docker image (going by the inbound traffic volume metric).
 
+{{< figure src="Target_Group_Needs_Configuring.png" title="Whoops, the target group needs updating." alt="A screenshot showing a warning message from AWS indicating that a subnet for the target group does not have an assigned internet gateway, and thus needs to be reconfigured appropriately before it can be used." >}}
+
 It would appear that I still haven't quite got all the settings correct.  My best _guess_ is that I didn't quite configure the inbound rules on the security group those instances use so that the target group/load balancer could actually talk to them.  To test that out, I tried adding in a new inbound rule to the security group, one which permits all traffic in.  That doesn't seem to help, however.  I noticed on the target group's monitoring that the number of requests recorded as received went up from zero, and instead of my browser just eventually timing out while trying to connect to the load balancer's DNS address, it now finishes quickly with a 502 "Bad Gateway" error.  Clearly, even though the EC2 instances are supposed to be private and inaccessible by the outside world, the associated security group still needs a rule to permit traffic in from the wider world.  No change to the health (or not) status of the hosts within the target group, though.  They're still marked as unhealthy.
 
-At this point, I'm rather stumped as to what the issue is, and I'm getting a bored with this whole rigmarole.  Since there's no actual need to get this working, I have decided at this point to give up on it _for the time being_.  I'll have to remember to come back to it all later on, but for now I just clean up all the non-default resources that I created.  If anybody out there knows what I did wrong, and more importantly what I should do differently, please let me know.  
+At this point, I'm rather stumped as to what the issue is, and I'm getting bored with this whole rigmarole.  Since there's no actual requirement to get this working, I have decided at this point to give up on it _for the time being_.  I'll have to remember to come back to it all later on, but for now I just clean up all the non-default resources that I created.  If anybody out there knows what I did wrong, and more importantly what I should do differently, please let me know.  
 
 ## Lightsail
 
