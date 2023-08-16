@@ -1,0 +1,14 @@
+# Originally copied over from the PaperMod theme's robots.txt on 16 August 2023
+
+# I do NOT give permission to any of those LLM types to use the content of my site for their purposes.  If they want permission, they will have to contact me directly.  Currently, I am only aware of the ChatGPT scraper as one you can provide something for in robots.txt
+# The below taken from https://dev.to/ervin_szilagyi/disallow-gpt-bot-from-scraping-our-blog-posts-38pc
+User-agent: GPTBot
+Disallow: /
+
+User-agent: *
+{{- if hugo.IsProduction | or (eq site.Params.env "production") }}
+Disallow:
+{{- else }}
+Disallow: /
+{{- end }}
+Sitemap: {{ "sitemap.xml" | absURL }}
