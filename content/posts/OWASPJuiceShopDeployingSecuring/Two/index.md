@@ -5,7 +5,10 @@ date: 2023-08-10
 draft: false
 Tags:
 
+- Amazon EC2
+- Amazon Lightsail
 - AWS
+- AWS Elastic Beanstalk
 - Cloud
 - Deployment
 - OWASP Juice Shop
@@ -235,6 +238,58 @@ Let's see if this does any better.  The output from the terminal after running t
 
 Anyway, now that I have confirmed that I can run the OJS in a regular Lightsail container (completely manually, at least), I'll delete it and move on to trying the next approach.
 
-## The Next Deployment Approach
+## AWS Elastic Beanstalk
 
-To be finished...
+It turns out that [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/)(EB) is kind of part-way between EC2 and Lightsail.  Essentially, it helps to orchestrate a bunch of the minutiae of doing a deployment, such as setting up a load balancer appropriately.  You don't actually create EB resources directly, but rather you use it to automate (partially) the setup of things like EC2 instances, security groups and load balancers, etc.  As such, you don't get charged for using EB, rather you get charged for the resources it stands up.  Basically, it's probably what I could have really used earlier/above, when trying to use an [EC2 instance with a load balancer](#using-a-load-balancer).  I imagine that it automatically sets up one of the things I was missing, or had misconfigured, when trying to do all this earlier.
+
+As of the time of writing, EB only supports using a handful of languages/systems for deploying applications directly (though the ones they support probably do cover the vast majority of web applications out there), but fortunately one of the supported ones is Node.js.  EB also supports deploying Docker containers.  Thus, I shall attempt to do a direct Node.js deployment, and a Dockerised deployment.
+
+### Node.js Direct
+
+I'm not totally sure on what is required to deploy a Node.js application directly onto EB.  Probably, in part at least, due to my relative unfamiliarity with Node.js development overall.  Fortunately, there is some discussion on that point in the docs:
+
+> You can include a Package.json file in your source bundle to install packages during deployment, to provide a start command, and to specify the Node.js version that you want your application to use. You can include an npm-shrinkwrap.json file to lock down dependency versions.
+> ...
+> There are several options to start your application. You can add a Procfile to your source bundle to specify the command that starts your application. If you don't provide a Procfile but provide a package.json file, Elastic Beanstalk runs npm start. If you don't provide that either, Elastic Beanstalk looks for the app.js or server.js file, in this order, and runs the script.
+
+OJS doesn't contain a Procfile, but it _does_ come with a package.json file.  So, for a first attempt I will try simply uploading the v15 release .zip bundle and see if EB can take it from there.
+
+The EB documentation [states](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_nodejs.container.html) that it uses [NGINX](https://nginx.org/) as a proxy server (I presume they specifically mean a "_reverse_ proxy server") by default.  While this seems like a perfectly reasonable choice of proxy server, I can't find anywhere in the OJS any reference to use of a proxy server.  Searching the files for "nginx" returns no results, and the only mention of Apache that I can find is inside the Vagrantfile.  Digging into the Node.js:18 docker image's (which is also the 18-bookworm image) Dockerfile, I can't see anything that looks like inclusion of a proxy server, but I _can_ see that it is built atop buildpack-deps:bookworm image.  That image's Dockerfile, in turn, also does not contain any references to anything that looks like a proxy server, but is built on buildpack-deps:bookworm-scm.  Same result, but that is built on buildpack-deps:bookworm-curl.  Same thing again, but pointing back to debian:bookworm.  Of course, I could be wrong, but I doubt the base Debian image comes with something like Nginx or Apache installed by default.
+
+The point of all of this is that it looks like OJS only uses the built-in HTTP server from Node.js, and makes no use of a proxy server when deploying via the container.  Perhaps the idea is that either you are working with it locally, in which case such a server would be complete overkill, or it is up to you to handle putting a proxy server in front of it yourself.  I'm not sure—OJS' deployment instructions make zero mention of the matter.  Again, this is probably only perceived by me as an issue because I'm not really familiar with how things are done in Node.js world.  Looking at the Node.js documentation [on setting up a Docker container for development](https://nodejs.org/en/docs/guides/nodejs-docker-webapp), they describe using [Express.js](https://expressjs.com/) to create a basic server.  OJS appears (roughly) to mirror this approach.  The [Express docs](https://expressjs.com/en/starter/hello-world.html) appear to suggest that their server uses [RunKit](https://runkit.com/home), but I can't figure anything out beyond that.  So, in summary, I'm uncertain what is actually powering OJS to handle web requests, but there doesn't seem to be anything to do with a proxy server.  Hopefully using EB doesn't muck something up.
+
+Right, with that whole issue non-concluded, onto attempting a first deployment!  As I mentioned earlier, for a first attempt I will just plug in the .zip of the [v15 release](https://github.com/juice-shop/juice-shop/releases/tag/v15.0.0) from GitHub, and see what happens...
+
+{{< figure src="OJS_EB_initial_setup.png" title="Initial Application and Environment Setup" alt="A screenshot from the AWS Elastic Beanstalk console showing the environment configuration interface." >}}
+{{< figure src="OJS_EB_platform_select.png" title="Selecting the Platform and Application Code" alt="A screenshot from the AWS Elastic Beanstalk console showing the platform selection and application code configuration options." >}}
+{{< figure src="OJS_EB_configuring_service_access_1.png" title="Configuring the appropriate Service Access, Take One" alt="A screenshot from the AWS Elastic Beanstalk console showing the selection of a service role, EC2 key pair, and EC2 instance profile." >}}
+{{< figure src="OJS_EB_networking_config_noop.png" title="Configuring the network, by doing nothing at all" alt="A screenshot from the AWS Elastic Beanstalk console showing the network setup interface, but with everything set to the default settings." >}}
+{{< figure src="OJS_EB_configure_traffic_scaling_noop.png" title="Configuring Traffic and Scaling by doing nothing at all" alt="A screenshot from the AWS Elastic Beanstalk console showing the instance traffic and scaling options, with everything set to the defaults." >}}
+{{< figure src="OJS_EB_configure_monitoring_logging_noop.png" title="Configuring Updates, Logging and Monitoring by doing nothing at all" alt="A screenshot from the AWS Elastic Beanstalk console showing the settings for updates, monitoring and logging of an Elastic Beanstalk application, but with everything set to the defaults." >}}
+
+#### So many difficulties...
+
+I hit a bit of a stumbling block when I got to the point of trying to figure out what VPC I should use.  I don't _want_ to use the default one, but I'm also uncertain of what a custom VPC needs for EB's purposes.  I noticed, however, that this whole bit is described as optional, so _hopefully_ EB will use some sort of sensible approach on its own.  I choose not to configure anything, and just click `Next` and move on.  This is also the page where you configure connecting your application to an RDS database, but since OJS doesn't seem to use any external DB I choose not to enable that.
+
+I'm even more iffy about the following page.  I do note with the 'Capacity' section, it says that you can use a single instance and only switch to using a load balancer when needed later on.  I'm not sure if that will mean that the whole thing will only be available on HTTP again, rather than HTTPS, given that previously it was supposed to be the load balancer that would handle TLS.  Alternatively, perhaps that duty is now left up to the provided proxy server.  Anyway, again I don't change anything and just carry on.
+
+Same story again with the next page.  I don't know for sure that I should change anything, so I'll just leave it all alone for now.
+
+Finally, I get to the review page, and hit `Submit` to try to deploy everything, and...  get hit with a wholly unclear error message.  I _think_ it's referring to my not having chosen an EC2 instance profile on the 'Configure service access' page.  I had thought that EB was supposed to set up a sensible default for you if you didn't fill it in, but perhaps I'm confusing it with the service role.  Digging back into the [EB documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-instanceprofile.html), I find this:
+
+> Previously Elastic Beanstalk created a default EC2 instance profile named aws-elasticbeanstalk-ec2-role the first time an AWS account created an environment. This instance profile included default managed policies. If your account already has this instance profile, it will remain available for you to assign to your environments.
+>
+>However, recent AWS security guidelines don’t allow an AWS service to automatically create roles with trust policies to other AWS services, EC2 in this case. Because of these security guidelines, Elastic Beanstalk no longer creates a default aws-elasticbeanstalk-ec2-role instance profile.
+
+ Most likely, I was misremembering that bit.  Eventually I'm able to figure out the relevant instructions to create the required instance profile and try again.  Except, that still doesn't do it.  Same utterly unhelpful error message as before.  At this point, I'm really rather at a loss.  The only other thing I can think of that might need twiddling is the VPC.  Thus, I go just choose the default VPC and select the default subnet for every availability zone.  Same result.
+
+ {{< figure src="OJS_EB_unhelpful_error_message.png" title="The spectacularly unhelpful error message" alt="A screenshot of an error message from AWS, which provides no useful information whatsoever on what the error was." >}}
+
+##### Resorting to the Example Application
+ 
+Possibly it's something to do with the OJS zip upload.  To double-check that, I will try to do the whole process again, except this time I will just use [the zip provided](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/samples/nodejs.zip) for a basic 'getting started' sample application.  That _does_ work, with me making all the same choices for the application environment.  Thus, presumably the problem relates to the OJS zip file that I have been attempting to upload.  Unfortunately, I don't know _what_ the problem is.  Maybe instead of the base .zip, I need to use one of the platform-specific built releases available from the OJS GitHub instead (again, this is probably all an issue because I'm not really familiar with how Node.js does things).  After having confirmed that this does, in fact, deploy, I of course tidy the whole thing up again.  Sadly, it looks like this single-unit deployment did _not_ use HTTPS and rather just HTTP.  Which is a disappointment, since that was one of the key things I was hoping EB would do for me.
+
+{{< figure src="OJS_EB_sample_application_landing.png" title="The landing page for the sample Node.js application" alt="A screenshot of the landing page for the Elastic Beanstalk Node.js sample application, demonstrating that this application was deployed by Elastic Beanstalk and accessible online." >}}
+
+##### Back to the OJS
+
