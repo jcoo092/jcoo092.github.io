@@ -128,9 +128,9 @@ menu:
     #  name: Categories
     #  url: /categories/
     #  weight: 10
-    - identifier: publications
-      name: Publications
-      url: /publications/
+    - identifier: cv
+      name: Curriculum Vitae
+      url: /cv/
       weight: 20
     - identifier: series
       name: Series
@@ -144,10 +144,7 @@ menu:
       name: Search
       url: /search/
       weight: 40
-    #- identifier: example
-    #  name: example.org
-    #  url: https://example.org
-    #  weight: 30
+
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 #pygmentsUseClasses: true
 #markup:
