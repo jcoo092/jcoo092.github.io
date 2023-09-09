@@ -9,7 +9,7 @@ Description: A space-unbounded reference for details potentially relevant to som
 
 This page serves as a space-unbounded reference for details potentially relevant to someone considering recruiting me for a job.  This is intended to be a somewhat-complete listing of everything that someone could be interested in, going beyond what I would normally submit as my CV to any normal job application.  There will be, of course, things that I don't post here (e.g. the job as a kitchen hand I had back when I was in high school) because I don't think they could possibly be relevant to anybody anymore, and some things I just forget to mention.  Plus, I don't want to doxx myself completely.
 
-The below sections are ordered **alphabetically**, since different parts will be more or less relevant to different people.
+The below sections are ordered **alphabetically**, since different parts will be more or less relevant to different people.  Subsections may be ordered alphabetically, or with another system where appropriate.  For example, my formal education and work experience are listed in reverse chronological order.
 
 ## Education
 
@@ -55,7 +55,7 @@ Also includes a specialisation in Logic & Computation, which was effectively the
 [^phd]:  Since I seem to keep encountering confusion about this, "Doctor of Philosophy" is the official title of the degree, in the same way that Bachelor of Arts is the official title for an undergraduate degree in English.  It does _not_ (necessarily) mean that someone has studied or researched philosophy specifically—for example, mine was wholly dedicated to Computer Science.  I believe the "philosophy" part is a historical artifact, from back when a lot of different studies tended to be referred to as some sort of philosophy.  I'm not totally sure on why PhDs have become the norm for all doctorates, but they seem to have.
 [^honours]:  At the University of Auckland, the Honours degree (for most undergraduate degrees) is considered the first level of postgraduate qualification, and is loosely equivalent to the first year of a two-year Masters program.  For most faculties, it is _not_ equivalent to North American undergraduate honours systems (though I think in the case of Law and Engineering, it roughly is—go figure).
 
-### Online Education/MOOCs:
+### Online Education/MOOCs
 TBC
 
 ## Experience
