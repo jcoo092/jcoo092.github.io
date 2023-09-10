@@ -15,7 +15,7 @@ The below sections are ordered **alphabetically**, since different parts will be
 
 ### Certifications
 
-None as yet, but I very much hope to earn some in my next job, whatever that may be. 
+None as yet, but I very much hope to earn some in my job.  Preferably, sooner rather than later, so that I can start applying anything I learn straight away. 
 
 ### Formal Education
 
