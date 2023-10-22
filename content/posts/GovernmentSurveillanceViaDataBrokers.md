@@ -3,6 +3,7 @@ Title: On Government Surveillance Via Data Brokers
 Lead: Why I think it's (currently) a bit silly that people objecting to governments buying data from brokers instead of obtaining warrants
 date: 2023-09-10
 draft: false
+ShowToc: false
 Tags:
 
 - Digital Privacy
