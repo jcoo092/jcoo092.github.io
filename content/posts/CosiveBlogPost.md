@@ -9,6 +9,7 @@ Tags:
 - APIs
 - Data Leaks
 - REST
+- Security
 ---
 
 # Securing REST API Endpoints (or 15 Steps to Avoid Another Optus)

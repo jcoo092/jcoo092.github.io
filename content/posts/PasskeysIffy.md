@@ -8,11 +8,11 @@ Tags:
 
 - Rants
 - Security
-    - Cybersecurity
-    - Information security
-    - Passkeys
-    - Passwords
-    - Password Managers
+    -- Cybersecurity
+    -- Information security
+    -- Passkeys
+    -- Passwords
+    -- Password Managers
 ---
 
 # I'm a little iffy on Passkeys

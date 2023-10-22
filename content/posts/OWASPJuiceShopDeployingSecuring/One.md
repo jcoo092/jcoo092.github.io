@@ -10,6 +10,7 @@ Tags:
 - Deployment
 - OWASP
 - OWASP Juice Shop
+- Security
 
 Series:
 - Deploying Then Securing the OWASP Juice Shop
