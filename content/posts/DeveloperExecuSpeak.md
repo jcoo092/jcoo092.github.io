@@ -20,6 +20,14 @@ It is common amongst the non-executive types to deride so-called 'execu-speak'. 
 
 Also, I'm likely to keep updating this over time, so you if you like some of this, you might be interested in coming back periodically.
 
+### B
+
+#### Battle-tested
+
+This is just so darn overblown and self-aggrandizing.  There's an extremely high likelihood that your code won't actually be used in a battle, so why are you talking about it going to war?  If you really were developing software which could be used in a real-life battle, the idea of programming in Ada wouldn't sound weird and foreign to you.  You likely wouldn't be programming to run in the cloud however, much more likely you'd be developing for an embedded subsystem of some military vehicle.  So if it's incredibly unlikely people will die as a direct consequence of bugs in your code, stop describing it in military terms, you tosspots.
+
+Those people who develop software for military purposes and have seen it come out the other side smelling of rainbows really can use the phrase "battle-tested" because it's true.  All the rest of you: find something less insulting to people on the front lines of the world's conflicts.
+
 ### R
 
 #### Rich
@@ -38,9 +46,9 @@ I remember reading a rant many years ago from a then-software developer complain
 
 [^satanicverses]:  Yes, I really have read 'The Satanic Verses' by Salman Rushdie.  I wouldn't recommend it.  It is incredibly obtuse and boring.  I wonder that muslims weren't so stirred up by it because it's such a waste of one's time, rather than because of the thinly-veiled blasphemy.  If you're thinking about reading it, go read the dictionary instead.  It's no more dull, can be shorter depending on which version you have, and at least you'll learn something.
 
-I think this is one of those misused words that came straight out of Agile (or one of the things it kinda sorta amalgamated) with user stories.  Which, while I find horrendously overused in some ways (not every single task description needs some inane, tortuous, imagined novella from the perspective of a nonsensical character), does in and of itself make sense.  Somehow, though, the use of the word story leaked out and spread its smelly, greasy oil slick over our pristine beach, but celebrities have cleaned all the cute animals in media-friendly photo opportunities, and I'm left metaphorically scrubbing mucky rock after mucky rock of people misuing the word "story" with only a toothbrush.
+I think this is one of those misused words that came straight out of Agile (or one of the things it kinda sorta amalgamated, or one of the things that latched onto it) with user stories.  Which, while I find horrendously overused in some ways (not every single task description needs some inane, tortuous, imagined novella from the perspective of a nonsensical character), does in and of itself make sense.  Somehow, though, the use of the word story leaked out and spread its smelly, greasy oil slick over our pristine beach, but celebrities have cleaned all the cute animals in media-friendly photo opportunities, and I'm left metaphorically scrubbing with only a toothbrush mucky rock after mucky rock of people misuing the word "story".
 
-Honestly, this is probably the one which bugs me the most of anything, because MOST OF THE TIME WHEN SOMEONE SAYS "STORY" IN SOFTWARE DEVELOPMENT THESE DAYS IT MAKES NO FREAKING SENSE.
+Honestly, this is probably the one which bugs me the most of anything, because ALMOST ALWAYS WHEN SOMEONE SAYS "STORY" IN SOFTWARE DEVELOPMENT THESE DAYS IT MAKES NO FREAKING SENSE.
 
 ## Some Things That You Might Think Would Bug Me, But Actually Don't
 
