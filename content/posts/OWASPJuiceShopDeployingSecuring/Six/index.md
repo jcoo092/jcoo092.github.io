@@ -76,6 +76,8 @@ The easiest way I know of to try out fiddling with such things is to submit a va
 
 I do wonder at this point, though, whether I can do a GET request to the Feedbacks endpoint mentioned earlier.  I try just requesting it via cURL, but get an error an invalid token.  Presumably, I need to include some header or another for the endpoint to accept it.  I'll try again via the dev tools, but first the zero-star rating (just in case I muck something up).  I update the rating entry in the replayed request's body to 0 and hit send.  Success!  The ID on the response to this one is 9, suggesting that the feedback items are indeed stored with sequential IDs.
 
+{{< figure src="Solved_zero_stars.png" title="One down, many to go." alt="A screenshot of the OWASP Juice Shop's challenge completion banner, stating that the "Zero Stars" challenge was completed successfully." >}}
+
 ### While I'm Here
 
 Looking through the list of challenges for others that I can probably do while I'm here, I notice 'CAPTCHA Bypass', which is about submitting 10 or more instances of feedback within 20 seconds.  Given that I could already replay the initial submission to do it once, if I can just repeat that same request in a for loop in a script, that should be trivial.  I also discover that Firefox very helpfully actually provides an option to put the correct cURL command to repeat the request onto the clipboard.  So, between that and a sliver of Powershell, that challenge is also already solved.  The precise command used was:
@@ -85,6 +87,14 @@ Looking through the list of challenges for others that I can probably do while I
 ```
 
 That gives me two solved challenges with banners across the top of the scoreboard page.  One of the other challenges says about closing more than one banner at once.  Fortunately, I saw somewhere in the introductory sections of the "Pwning OWASP Juice Shop" [companion guide](https://pwning.owasp-juice.shop/companion-guide/latest/index.html) that you can close more than one at once by holing the `shift` button when clicking.  Turns out that wasn't a lie, and now I have another challenge solved.
+
+### Bullying a Chatbot
+
+There's another challenge listed "Bully Chatbot", with the description
+
+> Receive a coupon code from the support chatbot.
+
+It also is tagged with 'Brute Force' and 'Shenanigans'. This all leads me to suspect that if you can ask for a coupon code enough times in a sufficiently short space of time, you can get a coupon code out of it.  Which means this challenge probably needs a similar approach to the last one.  I take the exact same approach as with the 'CAPTCHA Bypass' challenge.  I open up the chatbot section, write a message reading something like "coupon", and see what happens.  The chatbot responds with something about how it can't give me a coupon code, but I now have a record of a web request asking for a coupon.  I again copy the cURL command for it out of Powershell, wrap that in the Powershell shorthand for a for loop, bump the number of iterations up to 100, and hit enter.  The confetti cannons go off, and apparently I have beat the challenge.  It looks like I managed to beat the same coupon code out of it a few times, but have to scroll back up through the output of all 100 requests to find it.
 
 ### GETting On With It
 
@@ -114,3 +124,43 @@ So by now I'm beginning to run out of ones that are totally obvious to me, and f
 - Assuming that people wouldn't observe actions the frontend undertakes by itself, and then imitating them in a way outside of that intended for non-malicious users.
 
 This leads to two overarching morals of the story so far.  Namely, that you should always assume that any web request the frontend makes can and will be observed – and abused – by users, and moreover that you should _never_ rely on client-side validation to prevent invalid inputs.  Client-side validation is used to help legitimate users interact with the system sensibly, but can always be bypassed by those with ill-intent.  You _must_ use server-side validation, away from the direct control of end-users, to confirm that parameters are valid and don't enable someone to do something they shouldn't.
+
+## Get Help
+
+By now I have run out of ones that I can figure out without any sort of help (and which don't sound like they'd be a whole load of work).  There are some I think I'm pretty close on, however, like the basic cross-site scripting ones or the one about finding an exposed metrics system's endpoint.  Furthermore, there are a few remaining challenges that apparently come with walkthroughs or tutorials, so I might as well work through those while I'm at it.
+
+### XSS
+
+The first thing I think I'll look at is revisiting the XSS challenge that I couldn't quite figure out before.  I don't want to go straight to the guided tutorial, so I'll look at the [extra hints](https://pwning.owasp-juice.shop/companion-guide/latest/part2/xss.html#_perform_a_dom_xss_attack) they provide on the website, and see if I can get far enough with just those.  The hint there basically just tells you to go look at the next hint, which is for one of the challenges that aren't actually available by default when running in Docker.  Basically, it just says to look for a part of a page where the user's input is incorporated into the page.
+
+I went through just about every page in the whole shop, trying out the instructed HTML.  No luck with any of them.  Either they didn't have anywhere for user input, or the user input was either scrubbed appropriately or not actually displayed back.  I'm just about ready to give up and run the tutorial, when I realise that there is a website search function, and that I haven't actually tried with that yet.  I simply copy-pasted the sample command into the search box and hit enter, and the challenge is completed.  Yip, it's that simple, when you know how to do it (in this instance).
+
+#### Bonus
+
+Somewhere else on the scoreboard under "Bonus Payload", they list another, larger, input to try.  It's the exact same process to solve this one, too.  Except now instead of a little pop-up message, it links you to a recording the OJS jingle.  I suspect that this challenge was included more to give them a way to make people listen to the jingle, rather than for some educational benefit.
+
+### A Modern Prometheus
+
+The "Exposed Metrics" challenge says to find an endpoint serving up usage data for a popular monitoring system, where said system is clearly indicated to be [Prometheus](https://prometheus.io/).  I would guess that probably the endpoint in question is exposed on the default path and port, and without any auth requirements put in front of it.  Depending on what's available through it, this may or may not be a bad thing.  You should definitely default to keeping things buttoned-up, though, unless you can be _really_ sure that there's nothing sensitive in there.  You never know what a sneaky attacker [can find and exploit](https://www.microsoft.com/en-us/security/blog/2023/07/14/analysis-of-storm-0558-techniques-for-unauthorized-email-access/).
+
+Anyway, the point is that this challenge is probably trivial if you bother to read some documentation.  In fact, most likely there will be some sort of 'getting started' document that describes the default endpoint to query.   The [page labelled](https://prometheus.io/docs/introduction/first_steps/) "First Steps" seems like a good place to look.  Yes, here we go, that page includes the sentence
+
+> Prometheus expects metrics to be available on targets on a path of /metrics
+
+That seems like a good first thing to try.  In this instance, it's also the last thing to try, as simply pointing one's browser to http://localhost:3000/metrics is sufficient to solve this challenge.  Turns out I didn't really need extra help on this one.  It highlights an excellent point, though, namely that you should just do the first part of the beginners' tutorial and then stop and call your production system working.  That's good for initially experimenting with and learning a new system, but it's pretty much never appropriate for actually deploying it anywhere besides your development machine.
+
+### Administrivia
+
+There are a few challenges that seem to relate to logging in as an admin user or accessing the admin section.  Presumably, if you can log in as an admin user, you can access the admin section, so it seems like focusing on that is likely to be the more useful approach.
+
+## OSINT
+
+Thanks in large part to having taken part in the challenges for CHCon 2021, which focused pretty much entirely on OSINT, I think I might have a decent chance of completing some of the challenges under this category.  Besides the general lesson of not using secrets that are actually on the web for anyone to find, there's likely not really anything especially instructive in completing the challenges.  Thus, I'm just going to skip them in this blog post.  I am awfully curious about the one for Bender, however, given that I have seen just about every Futurama episode at least once (if not many more times than that).
+
+## But Wait, There's (One) More!
+
+Just before I decide I have done enough to make a sufficiently long blog post, I realise there is another Improper Input Validation challenge that I suspect I could do.  Namely, "Admin Registration", with the description:
+
+> Register as a user with administrator privileges.
+
+It sounds to me like there's probably some way to specify a user's assigned role when sending the input data for creating a new user.  Perhaps the server accepts a role as input and blindly assigns that if present, rather than some server-side logic figuring out the correct role (which, for a customer-facing application will basically always be the standard user or customer role).
