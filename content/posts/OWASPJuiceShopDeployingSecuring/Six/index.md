@@ -22,6 +22,10 @@ In this post, I am essentially going to fire up the OWASP Juice Shop (OJS) local
 
 This post is likely very much just going to be a long, rambling, lightly edited series of notes to myself as I go through trying to solve the challenges.  Hopefully, that stream-of-consciousness style will actually be of help to someone, though.  With any luck, I'll end up including the missing piece of the puzzle for someone else looking at one of the challenges, and enable them to go solve it themselves.   **Be warned, though:  I'm not going to attempt to redact or hide things in this post, so there will probably be a bunch of spoilers littered throughout.**
 
+For reference, I ran OJS locally via Docker, using the Docker image tagged `v15.0.0`, with hash _178d89b55c46ae8b4167ddb28ce52ab4284ebce0766575c3943367ff09e27c97_.  By the time I started working on this blog post, a whole new major release had already come out, but I started the series with v15, so I'll stick with it.  I activated said Docker image using the command `docker run --rm -p 3000:3000 bkimminich/juice-shop:v15.0.0`.  I accessed the running OJS instance through my browser at `http://localhost:3000`.
+
+If you're interested in having a go at the OJS yourself, you should definitely check out the companion guide available (as of the time of writing) at https://pwning.owasp-juice.shop/companion-guide/latest/index.html.  It also includes solutions, though I imagine there are also plenty of other blog posts and the like out there which give much better explanations of how to solve challenges than I do. 
+
 ## Wait, what happened to parts three, four and five?
 
 When I started on this blog series, I intended to spend a few posts exploring different ways to deploy the OJS to AWS.  I did indeed do a bit of that in [post two](../two).  It turns out, however, that this was both more complicated and fiddly than I had anticipated, and moreover that it is actually really interminably dull to me.  Cloud deployments are, of course, a very important aspect of modern software development, but they're not something which excites me in the slightest.  Rather, it's the application security aspects of all this that I'm interested in.
@@ -60,6 +64,8 @@ That's three down, a whole bunch more to go.
 
 ## Some Basic Improper Input Validation
 
+The below recounts the things I first tried (roughly in chronological order), but almost all of them were just uses of the same single method:  Sending a legitimate request, then using the Firefox developer tools `Edit and Resend` functionality to modify some part of a web request to achieve something that you shouldn't be able to do.  In general, this only works because the web application doesn't perform sufficient server side validation of the received inputs, instead (wrongly) trusting that the frontend validation takes care of it. 
+
 ### Zero Stars Given
 
 Looking through the (filtered) list of challenges, some of the ones that catch my eye are from the 'Improper Input Validation' set.  Maybe because I have a little experience of doing this sort of thing in the SANS Holiday Hack Challenge, I feel like I could make a stab at it.  E.g., the challenge 'Zero Stars', which says "Give a devastating zero-star feedback to the store."  My initial thought for this is that probably there is some sort of validation on the feedback form to prevent someone submitting a zero rating, but anybody who bypasses the GUI is unstopped.  I.e., there's front-end validation, but no back-end validation.  Turns out the front-end uses a slider to set a score between 1 and 5.
@@ -78,11 +84,33 @@ Looking through the list of challenges for others that I can probably do while I
 1..10 | % { curl "http://localhost:3000/api/Feedbacks/" -X POST -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:121.0) Gecko/20100101 Firefox/121.0" -H "Accept: application/json, text/plain, */*" -H "Accept-Language: en-GB,en;q=0.5" -H "Accept-Encoding: gzip, deflate, br" -H "Referer: http://localhost:3000/" -H "Origin: http://localhost:3000" -H "DNT: 1" -H "Connection: keep-alive" -H "Cookie: language=en; welcomebanner_status=dismiss; continueCode=xmOK5wX8WKPpQY6Mr4neoLglBOAP9LHY7dNyjmbvxZEJq2D3V7a91zkR9EB7; code-fixes-component-format=LineByLine; continueCodeFindIt=2xaOBEyblGWQg2ormknJzea1vN6B4LXa4p503j7DLVERKxwq9XOdMYPJRvDb; continueCodeFixIt=O0Wmz4K5Ede4DGRP6WrJmw9kbB8XAvQoxyYLpOgzjq3QlN70VZonvM2e5wMn" -H "Sec-Fetch-Dest: empty" -H "Sec-Fetch-Mode: no-cors" -H "Sec-Fetch-Site: same-origin" -H "Content-Type: application/json" -H "Pragma: no-cache" -H "Cache-Control: no-cache" --data-raw "{""captchaId"":0,""captcha"":""-23"",""comment"":""ashgah (anonymous)"",""rating"":0}" }
 ```
 
-That gives me two challenges with banners across the top of the scoreboard page.  One of the other challenges says about closing more than one banner at once.  Fortunately, I saw somewhere in the introductory sections of the "Pwning OWASP Juice Shop" [companion guide](https://pwning.owasp-juice.shop/companion-guide/latest/index.html) that you can close more than one at once by holing the `shift` button when clicking.  Turns out that wasn't a lie, and now I have another challenge solved.
+That gives me two solved challenges with banners across the top of the scoreboard page.  One of the other challenges says about closing more than one banner at once.  Fortunately, I saw somewhere in the introductory sections of the "Pwning OWASP Juice Shop" [companion guide](https://pwning.owasp-juice.shop/companion-guide/latest/index.html) that you can close more than one at once by holing the `shift` button when clicking.  Turns out that wasn't a lie, and now I have another challenge solved.
 
 ### GETting On With It
 
-At this point, I remembered that I was wanting to check whether it's possible to access feedback with a GET request.  So, I try the exact same request as before, except I change the HTTP verb from POST to GET, and in response I receive a list of all the feedback.  The only thing that's of any interest to me in there is the fact that one of the comments seems to include some HTML.  That might be how I could have a go at the "DOM XSS" challenge.  Beyond copy-pasting the provided HTML into the payload, I also try changing the username from `anonymous` to Bjoern, and the rating to -1, just to see what happens.  That pops the "Error Handling" challenge, but doesn't seem to do anything else, least of all tell me I managed the XSS.  It kind of looks like they might have some input sanitisation going on that prevents it from being totally trivial.
+At this point, I remembered that I was wanting to check whether it's possible to access feedback with a GET request.  So, I try the exact same request as before, except I change the HTTP verb from POST to GET, and in response I receive a list of all the feedback.  The only thing that's of any interest to me in there is the fact that one of the comments seems to include some HTML.  That might be how I could have a go at the "DOM XSS" challenge.  Beyond copy-pasting the provided HTML into the payload, I also try changing the username from `anonymous` to Bjoern, and the rating to -1, just to see what happens.  That pops the "Error Handling" challenge, but doesn't seem to do anything else, least of all tell me I managed the XSS.  It kind of looks like they might have some input sanitisation going on that prevents it from being totally trivial.  I will have to come back to this.
 
+### Repetitive Registration
 
+By this point, I'm running out of challenges where I'm pretty sure I know from the start what to do.  One does catch my eye, though, named "Repetitive Registration".  The description of it simply says
 
+> Follow the DRY principle while registering a user.
+
+I'm not totally sure what this means, but I can guess that it probably is about not repeating the exact same password when registering a new user.  So, off to the new user registration section.  A random username, a random password, and a slightly different version of that password later, and it's another challenge solved.  Turns out they did indeed mean that you register a user without repeating the same password.
+
+### Empty User Registration
+
+Oh, turns out there's another similar challenge to the last one.  This time, register a user without even providing an email address or username.  That same old 'edit and resend' trick to the rescue!  This time, I just make the JSON for the username and password empty strings, e.g. `{ "Password": "" }`.  The confetti cannons go off, and it's another challenge done.
+
+### "View Basket"
+
+By now, I'm running out of challenges I think I can solve through the one trick, but I notice one last one I might just be able to achieve.  Viewing another user's basket.  I just go back to the store's front page, put something into the shopping basket, navigate to the basket view page, and find the relevant HTTP request to get the contents of the basket.  Then, I try sending that back but with a different user's ID.  Turns out the OJS apparently doesn't validate for a basket view request that the requestor is actually authorised to view that basket (usually normal customers should only be authorised to view their own basket, and denied for everybody else's).
+
+### Moral of the Story
+
+So by now I'm beginning to run out of ones that are totally obvious to me, and for which I don't think I need any further help.  Almost everything I did here just revolved around modifying a legitimate web request and sending it again, to make the system use its normal functionality to do something a normal user isn't meant to achieve.  The weaknesses exploited pretty much all relied on two failures in the secure development system (deliberate in the case of OJS, of course):
+
+- A lack of server-side validation of request parameters, presumably instead relying on client-side validation.
+- Assuming that people wouldn't observe actions the frontend undertakes by itself, and then imitating them in a way outside of that intended for non-malicious users.
+
+This leads to two overarching morals of the story so far.  Namely, that you should always assume that any web request the frontend makes can and will be observed – and abused – by users, and moreover that you should _never_ rely on client-side validation to prevent invalid inputs.  Client-side validation is used to help legitimate users interact with the system sensibly, but can always be bypassed by those with ill-intent.  You _must_ use server-side validation, away from the direct control of end-users, to confirm that parameters are valid and don't enable someone to do something they shouldn't.
