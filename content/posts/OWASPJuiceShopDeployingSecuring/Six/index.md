@@ -125,6 +125,52 @@ So by now I'm beginning to run out of ones that are totally obvious to me, and f
 
 This leads to two overarching morals of the story so far.  Namely, that you should always assume that any web request the frontend makes can and will be observed – and abused – by users, and moreover that you should _never_ rely on client-side validation to prevent invalid inputs.  Client-side validation is used to help legitimate users interact with the system sensibly, but can always be bypassed by those with ill-intent.  You _must_ use server-side validation, away from the direct control of end-users, to confirm that parameters are valid and don't enable someone to do something they shouldn't.
 
+## OSINT
+
+Thanks in large part to having taken part in the challenges for [CHCon 2021](https://2021.chcon.nz/), which focused pretty much entirely on OSINT, I think I might have a decent chance of completing some of the challenges under this category.  Besides the general lesson of not using secrets that are actually on the web for anyone to find, there's likely not really anything especially instructive in completing the challenges.  Thus, I'm just going to skip them in this blog post.  I am awfully curious about the one for Bender, however, given that I have seen just about every Futurama episode at least once (if not many more times than that).
+
+## Administrivia
+
+There are a few challenges that seem to relate to logging in as an admin user or accessing the admin section.  Presumably, if you can log in as an admin user, you can access the admin section, so it seems like focusing on that is likely to be the more useful approach.
+
+### Admin Section
+
+Two of the ones I can see involve logging in as the admin user in some fashion or another, but one of them just says to access the admin section of the website.  Based on that, I'm guessing that the admin section isn't actually only available to admin users.  Perhaps a link is only shown in the UI to administrative users, but anybody who guesses the correct link can find it.  The mouseover text on the hint block for the challenge seems to back that up, so I'll try that.
+
+I first try navigating to http://localhost:3000/#/admin, but that just gives me the front page.  I then try http://localhost:3000/#/administration and find a 403 page.  Looks like there actually is some access control on this page.  I also try both without the hash, but that doesn't get me anywhere.
+
+{{< figure src="admin_403.png" title="Access Denied" alt="A screenshot of the OWASP Juice Shop's 403 error code page banner, showing that the current user isn't permitted to view the requested web page." >}}
+
+I realise that I'm not actually logged in as any user at this point, however.  Possibly it's open to every registered user, but blocked simply for people who aren't signed in.  So, off I go to sign in as a regular user.  Except, that also doesn't work.  I get the same result.  It seems like you do need to be an admin user to access the page.  At least I know where it is, though.
+
+Which brings me to another point.  Any unauthenticated user should always be shown 404 error messages for any page they are not authorised for.  Otherwise, it becomes trivial to map out the real pages simply by requesting them and checking which ones return 404s vs 401s or 403s.  Whether this should also apply to authenticated but unauthorised users is much more context dependent.  If any random member of the public can create an account and thus be authenticated, you'll probably want to follow this approach.  If you only have a very small number of users, all of whom are considered known and trustworthy, it's probably OK to give them a 403 message instead.
+
+Anyway, it looks like I will need to log in as a user with admin access to manage this one, so let's try that next.
+
+### Admin Registration
+
+This challenge has the description:
+
+> Register as a user with administrator privileges.
+
+It sounds to me like there's probably some way to specify a user's assigned role when sending the input data for creating a new user.  Perhaps the server accepts a role as input and blindly assigns that if present, rather than some server-side logic figuring out the correct role (which, for a customer-facing application will basically always be the standard user or customer role).  Actually another one to try out the Edit & Resend system with, methinks.
+
+I'll go through the user registration process again, but this time I'll watch the request and response to create a new user.  This generates a POST request with the following request body: `{"email":"***@example.com","password":"***","passwordRepeat":"***","securityQuestion":{"id":2,"question":"Mother's maiden name?","createdAt":"2024-01-05T20:36:38.850Z","updatedAt":"2024-01-05T20:36:38.850Z"},"securityAnswer":"***"}` (bits replaced with `***` just because, even though I used garbage values).  The response body, however, has `{"status":"success","data":{"username":"","role":"customer","deluxeToken":"","lastLoginIp":"0.0.0.0","profileImage":"/assets/public/images/uploads/default.svg","isActive":true,"id":22,"email":"***@example.com","updatedAt":"2024-01-05T20:59:21.429Z","createdAt":"2024-01-05T20:59:21.429Z","deletedAt":null}}`.  I notice the role field in there.  Perhaps if I include that in my request body, too, with "admin", it might just create someone as an admin user?
+
+I add `"role":"admin"` into the request body and resend it.  That triggers the confetti cannons for this challenge, so apparently my new user has admin privileges.  After logging in as that user, I can't see a link to any administration page in the UI, but I'll try out the link I guessed earlier.  Yes, success!  Instead of a 403 banner, I see a list of registered users, and the confetti cannons go off for the 'Admin Section' challenge.  So, y'know, remember never to accept the role specified by a user in their registration request.
+
+I note, though, that even after accessing the page, there never seems to a link to the admin section displayed in the UI.  Possibly it was always intended that you had to access the page by knowing the link.  Which, by itself, is a terrible idea.  With it gated behind the admin role requirement, though, it's not so bad.  After all, it _should_ be very difficult to become an admin user illegitimately.
+
+#### Now That We're In Charge...
+
+Since we're in the admin section and can see a list of users, let's take a squiz at what info we have on them.  Unfortunately, it seems that it's not a whole lot.  We just get an email address and the date of registration and last update.  Still, we now know the login email address for every registered user, which could well prove handy in future.
+
+{{< figure src="user_admin_details.png" title="What administrators see about users" alt="A screenshot of the user details shown to administrators of OWASP Juice Shop, in the admin page." >}}
+
+I also note that there is a display of the customer feedback for the OJS listed here, with trashcan icons next to each one.  One of the other challenges, 'Five-Star Feedback', has the description "Get rid of all 5-star customer feedback."  Assuming that there aren't any hidden feedback items, then it would seem like it's trivial to finish this challenge from the admin panel.  In fact, there is only one item of five-star feedback listed currently.  Hitting the trashcan icon next to that is sufficient to solve that challenge, too.
+
+
+
 ## Get Help
 
 By now I have run out of ones that I can figure out without any sort of help (and which don't sound like they'd be a whole load of work).  There are some I think I'm pretty close on, however, like the basic cross-site scripting ones or the one about finding an exposed metrics system's endpoint.  Furthermore, there are a few remaining challenges that apparently come with walkthroughs or tutorials, so I might as well work through those while I'm at it.
@@ -149,18 +195,25 @@ Anyway, the point is that this challenge is probably trivial if you bother to re
 
 That seems like a good first thing to try.  In this instance, it's also the last thing to try, as simply pointing one's browser to http://localhost:3000/metrics is sufficient to solve this challenge.  Turns out I didn't really need extra help on this one.  It highlights an excellent point, though, namely that you should just do the first part of the beginners' tutorial and then stop and call your production system working.  That's good for initially experimenting with and learning a new system, but it's pretty much never appropriate for actually deploying it anywhere besides your development machine.
 
-### Administrivia
+### Help Unwanted
 
-There are a few challenges that seem to relate to logging in as an admin user or accessing the admin section.  Presumably, if you can log in as an admin user, you can access the admin section, so it seems like focusing on that is likely to be the more useful approach.
+Ok, turns out that I didn't _really_ need help for either of those challenges.  If I had kept going with others (e.g. those with more than two stars) I almost certainly would have required it, though.  At this point, however, I'm getting quite bored with writing this blog post (not with attempting to hack the OJS, though), so I'm gonna call it quits here.
 
-## OSINT
+## Summary
 
-Thanks in large part to having taken part in the challenges for CHCon 2021, which focused pretty much entirely on OSINT, I think I might have a decent chance of completing some of the challenges under this category.  Besides the general lesson of not using secrets that are actually on the web for anyone to find, there's likely not really anything especially instructive in completing the challenges.  Thus, I'm just going to skip them in this blog post.  I am awfully curious about the one for Bender, however, given that I have seen just about every Futurama episode at least once (if not many more times than that).
+So there you have it.  A reasonable number of challenges solved, mostly just by tampering with the body of legitimate GET or POST requests and resending them.  In every one of those cases, the OJS is too trusting or accepting of user-supplied inputs, and performs insufficient server-side validation.  Perhaps in some cases it inappropriately relies on client-side validation to stop people submitting iffy values, which is a definite mistake.  Meanwhile, other challenges can be solved by a little (vaguely-educated) guesswork, or reading a little documentation.  The main morals of this story might be:
 
-## But Wait, There's (One) More!
+- Never trust user inputs.
+- Always perform server-side validation of user inputs, rather than relying on your frontend UI to stop miscreants from submitting invalid stuff.
+- Don't leave anything sensitive exposed without further authorisation requirements, especially if that is available in a default or easily guessable location.
+- Be cautious about what can happen if users automate making requests.  Strongly consider putting rate limiting on any API endpoint where a legitimate user is unlikely to need to use it at extremely high rates.
 
-Just before I decide I have done enough to make a sufficiently long blog post, I realise there is another Improper Input Validation challenge that I suspect I could do.  Namely, "Admin Registration", with the description:
+Of course, there are still myriad more challenges in the OJS to complete, many of which will likely require other techniques to solve, and other preventative measures to defend against.  Thus, the list above is almost certainly thoroughly incomplete.  Cybersecurity:  It's a deep topic :)
 
-> Register as a user with administrator privileges.
+If you think this post seemed interesting, I fully encourage you to have a go yourself.  If you'd like to learn more about hacking websites/web applications, the [Portswigger Web Security Academy](https://portswigger.net/web-security) is generally extremely well-reputed for a free resource.  I believe it's somewhat focused on Portswigger's own product, Burp Suite, but that's just a (widely-used by professionals) tool to make doing a lot of these things easier, rather than something magical which enables people to do something they couldn't otherwise achieve.  You can also have a go at the most recent few year's [SANS Holiday Hack Challenges](https://www.sans.org/holidayhack).
 
-It sounds to me like there's probably some way to specify a user's assigned role when sending the input data for creating a new user.  Perhaps the server accepts a role as input and blindly assigns that if present, rather than some server-side logic figuring out the correct role (which, for a customer-facing application will basically always be the standard user or customer role).
+For paid training resources, I understand that [Pentester Academy](https://www.pentesteracademy.com/) is pretty well-regarded, too.  There are also things like [Hack The Box](https://www.hackthebox.com/) and [Try Hack Me](https://tryhackme.com/).  [OWASP](https://owasp.org/) members receive complementary membership to an OWASP instance of [SecureFlag](https://www.secureflag.com/owasp).  I don't know exactly how well-regarded each of them is, but I don't think any of them have particularly bad reputations.  There are undoubtedly a vast panoply more resources, both free and paid, out there for web application security, but some of the above should be a good place to get started I imagine.
+
+Lastly, if you think this stuff seems pretty neat, and you might like to do it professionally, you could look at becoming a penetration tester.  It's not the right path for me, but it might be for you.  It generally pays pretty well, and if they get bored with pentesting, pentesters generally seem to be able to go on to high-flying jobs in the cyber defence side of things.  Having not done it myself, I can't speak too much to how to go about trying to get in, so I'll point you to Simon Howard's excellent resource on the topic:  [Getting Started as a Penetration Tester in NZ (2023 Edition)](https://www.linkedin.com/pulse/getting-started-penetration-tester-nz-2023-edition-simon-howard).  Mr Howard is very well respected in the New Zealand security industry, and can be considered reasonably authoritative on the matter.  The post is New Zealand-focused, but I imagine a huge amount of the information applies in most countries around the world.  By the time you read this, he may well have written a later edition, so it might be worth seeing if you can find that one.
+
+Oh, and last of all but most importantly:  **DON'T COMMIT CRIMES**.  Use your newfound hacking powers for good, and _always_ get permission (preferably explicit written permission) from the owners & administrators of any system you target, _before_ you take any action against it.  Seriously, the difference between criminal acts and a paying job can sometimes be as simple as whether you asked first.  If people say no, then move on.  There are plenty of targets out there already for you to practice with.
