@@ -1,8 +1,8 @@
 ---
 Title: Deploying Then Securing the OWASP Juice Shop, Part Six of ?
-Lead: Penetration Testing Amateur Hour
-date: 2023-12-24
-draft: true
+Lead: Amateurish Penetration Testing
+date: 2024-01-06
+draft: false
 Tags:
 
   - AppSec
@@ -32,7 +32,7 @@ When I started on this blog series, I intended to spend a few posts exploring di
 
 Given all this, and that I'm currently working at a job where the cloud deployment stuff is largely all handled for me (and thus I don't _need_ to learn all about it right now), I have decided to skip trying to finish the deployment posts for the time being.  I'm certainly not ruling out going back to it, but I don't anticipate working on that any time in the near future.  Thus, this post.  That still doesn't explain the lack of part five, though.  For part five, I intended to model threats for the OJS, and then use that to help inform the later posts in this series.  After all, a _lot_ of people who know what they're talking about suggest that threat modelling is an excellent first step.  E.g. that was the key message of [the article](https://doi.org/10.1145/3608965) "Coming of Age" by Stefano Zanero, that appeared in the September 2023 edition of the Communications of the ACM.
 
-The problem is that I have somehow managed to go years in learning about appsec while only ever developing the most rudimentary understanding of threat modelling.  It'll take me some proper background learning to be able to produce anything worthwhile for this blog series, and I'm keen to get (re)started on it.  Thus, I'm moving straight to fumbling around poking at a local instance, to see which of the challenges I can solve based on what I currently know (and the tools I have installed on my home computer).
+The problem is that I have somehow managed to go years in learning about AppSec while only ever developing the most rudimentary understanding of threat modelling.  It'll take me some proper background learning to be able to produce anything worthwhile for this blog series, and I'm keen to get (re)started on it.  Thus, I'm moving straight to fumbling around poking at a local instance, to see which of the challenges I can solve based on what I currently know (and the tools I have installed on my home computer).
 
 ## First Impressions
 
@@ -42,7 +42,7 @@ As I said in one of the earlier posts, I managed to find the score board myself.
 
 It turns out that, most of the way through the main.js file, they list all the paths for the pages on the domain.  The name of the relevant JS component is obfuscated, but, of course, they can't actually obfuscate the name of the path without breaking things.
 
-{{< figure src="score-board_path_in_source.png" title="The path to the score board, right there in the source code." alt="A screenshot of some of the OWASP Juice Shop's source code, showing that the path to the score board is hard-coded in client-side Javscript." >}}
+{{< figure src="score-board_path_in_source.png" title="The path to the score board, right there in the source code." alt="A screenshot of some of the OWASP Juice Shop's source code, showing that the path to the score board is hard-coded in client-side Javascript." >}}
 
 The score board lists all sorts of challenges, with an estimated difficulty rating for each.  For the time being, I'll focus only on challenges rated from 1-3, as higher challenges are either potentially beyond my skills and/or will take significantly more effort than I can be bothered with right now to achieve.  I'll include all the categories, though, since I don't think there's any one particular thing I'm especially good at.
 
@@ -58,9 +58,9 @@ The write-up just has to this say
 
 So yeah, they were talking about the usual practice of getting explicit permission and defining scopes, etc.  Of course, in this instance, the documentation around the OJS more or less has already given explicit permission (plus I'm only running the system locally in a Docker container on my own computer, so yes I can grant myself permission to attack that system).  I'm dimly aware of the [security.txt](https://securitytxt.org/) standard, so I'll give that a try.  My first attempt, http://localhost:3000/#/.well-known/security.txt, doesn't seem to do anything.  Maybe they don't have one?  Trying it without the `.well-known` part doesn't seem to work either.
 
-I move on to try to search through the code again, much as with the score-board.  No luck there.  I also crack open the privacy policy (getting that solution ticked off in the process), just in case it is linked in there, but no.  At this point, I'm a bit stumped about all this.  Ordinarly, I wouldn't _nearly_ yet revert to checking the answers, but since this one is all about engaging in good practices up-front, I'll make an exception.  The [solution](https://pwning.owasp-juice.shop/companion-guide/latest/appendix/solutions.html#_behave_like_any_white_hat_should_before_getting_into_the_action) seems to say the same thing as what I tried, though.  Except, I eventually notice that in my original attempt there was a `#` in there, but there isn't in the listed solution.  Changing to http://localhost:3000/.well-known/security.txt does indeed solve the challenge.  There's possibly some relevant info in there, so I'll keep that tab open for now.
+I move on to try to search through the code again, much as with the score-board.  No luck there.  I also crack open the privacy policy (getting that solution ticked off in the process), just in case it is linked in there, but no.  At this point, I'm a bit stumped about all this.  Ordinarily, I wouldn't _nearly_ yet revert to checking the answers, but since this one is all about engaging in good practices up-front, I'll make an exception.  The [solution](https://pwning.owasp-juice.shop/companion-guide/latest/appendix/solutions.html#_behave_like_any_white_hat_should_before_getting_into_the_action) seems to say the same thing as what I tried, though.  Except, I eventually notice that in my original attempt there was a `#` in there, but there isn't in the listed solution.  Changing to http://localhost:3000/.well-known/security.txt does indeed solve the challenge.  There's possibly some relevant info in there, so I'll keep that tab open for now.
 
-That's three down, a whole bunch more to go.
+That's three down, many more to go.
 
 ## Some Basic Improper Input Validation
 
@@ -161,6 +161,10 @@ I add `"role":"admin"` into the request body and resend it.  That triggers the c
 
 I note, though, that even after accessing the page, there never seems to a link to the admin section displayed in the UI.  Possibly it was always intended that you had to access the page by knowing the link.  Which, by itself, is a terrible idea.  With it gated behind the admin role requirement, though, it's not so bad.  After all, it _should_ be very difficult to become an admin user illegitimately.
 
+#### Cookie Monster
+
+Looking at the cookies for the website, I see that there is one for the JWT token, which includes a listing for the user's role.  _Perhaps_ you could just change the cookie to grant yourself the admin role, and maybe the system will accept it from the cookie.  I'm not sure if that would work, though, since it looked like the cookie was actually using signatures and validation, so updating it might cause the new JWT to be rejected.  Perhaps it may be possible to change the validation algorithm used to the blank one (I think you just specify `"alg":"none"), but since the above worked, I didn't bother with trying that. 
+
 #### Now That We're In Charge...
 
 Since we're in the admin section and can see a list of users, let's take a squiz at what info we have on them.  Unfortunately, it seems that it's not a whole lot.  We just get an email address and the date of registration and last update.  Still, we now know the login email address for every registered user, which could well prove handy in future.
@@ -169,7 +173,9 @@ Since we're in the admin section and can see a list of users, let's take a squiz
 
 I also note that there is a display of the customer feedback for the OJS listed here, with trashcan icons next to each one.  One of the other challenges, 'Five-Star Feedback', has the description "Get rid of all 5-star customer feedback."  Assuming that there aren't any hidden feedback items, then it would seem like it's trivial to finish this challenge from the admin panel.  In fact, there is only one item of five-star feedback listed currently.  Hitting the trashcan icon next to that is sufficient to solve that challenge, too.
 
+### Login Admin & Password Strength
 
+I tried out another couple of challenges around trying to log into the administrator's account (which we know from being able to see the list of emails uses the email address `admin@juice-sh.op`), but didn't manage to get anywhere.  Thus, given that they both have associated tutorials, they seem like good candidates for the next section of this post.
 
 ## Get Help
 
@@ -195,9 +201,29 @@ Anyway, the point is that this challenge is probably trivial if you bother to re
 
 That seems like a good first thing to try.  In this instance, it's also the last thing to try, as simply pointing one's browser to http://localhost:3000/metrics is sufficient to solve this challenge.  Turns out I didn't really need extra help on this one.  It highlights an excellent point, though, namely that you should just do the first part of the beginners' tutorial and then stop and call your production system working.  That's good for initially experimenting with and learning a new system, but it's pretty much never appropriate for actually deploying it anywhere besides your development machine.
 
+### Return of the Administrator
+
+For the two administrator-account-related challenges I couldn't complete above, I'll first check the hints, both in the OJS itself and in the Pwning OJS guide.
+
+#### Login Admin
+
+To be honest, the hints don't really give me much help with this.  I had already figured out that I probably want to have a go at the login form, but hadn't really got further than that.  One hint mentions trying to reverse the password hash, but I have no idea where to find the password hashes.  Otherwise, it's not really clear to me what they intend.  I'll have to resort to going through the tutorial.
+
+Ah, turns out they're intending for you to use SQL injection.  To be honest, to this day I have still never really quite got the hang of SQL injection (perhaps because I'm still not all that great at writing SQL), so I probably did need the tutorial for that.  As it turns out, the magic string for this is something like `' OR true--`, which you slap into the email address.  As I understand it, the opening quote mark closes off whatever SQL query the string is put into, then the `OR true` ensures that the whole thing returns true (presumably it's assumed to be something checking that the password entered matches the password on record).  The dashes are a comment in SQLite flavoured SQL, so that anything else in the query is discarded, rather than being kept and causing syntax errors when things don't fit right.
+
+Anyway, following the tutorial gave me some idea of what they expected, and how to do it.  Definitely worth resorting to the tutorial when all else fails.
+
+#### Password Strength
+
+The hints suggest that it should be fairly easy to guess the admin account's password.  I tried earlier, though, using everything I could think of like "password", "letmein", "12345", "monkey" (I hear that is a surprisingly common password), "admin", etc., and combinations of the above, with and without a trailing "!".  None of them worked.  Again, the hints suggest using the password hash, but I still have no idea where that is supposed to come from, so that won't work.  They also suggest attempting to brute force it using a password list and a script, which is a good idea, but I'm just too lazy right now.  I shall instead resort to the tutorial yet again, and see what they have to say.
+
+Hmmm, the tutorial doesn't _really_ tell you too much, it basically just suggests to guess, then kinda lets you know when you're in the right place.  Anyway, it turns out the admin password is simply `admin123`.  I suppose I must have tried `admin12345`, but never though to try it out without the last two digits.  The lessons here being things like never using such an obvious and easily guessable password,[^usepasswordmanager] that manually trying out some guesses can get you a long way, and that manually trying out guesses can be error-prone and scripting something to brute force it might well be easier in the long run.  Assuming that people are foolish enough to use a password that can easily be gathered from such a list.
+
+[^usepasswordmanager]:  Ideally, you would use a password manager to create and store long, random passwords for you.  Or if you need to be able to memorise it, get the password manager to generate a good, _actually random_ passphrase for you (all good managers come with such a generator these days).
+
 ### Help Unwanted
 
-Ok, turns out that I didn't _really_ need help for either of those challenges.  If I had kept going with others (e.g. those with more than two stars) I almost certainly would have required it, though.  At this point, however, I'm getting quite bored with writing this blog post (not with attempting to hack the OJS, though), so I'm gonna call it quits here.
+Ok, turns out that I didn't _really_ need help for some of those challenges.  If I had kept going with others (e.g. those with more than two stars) I almost certainly would have required it, though.  At this point, however, I'm getting bored with writing this blog post (not with attempting to hack the OJS, though), so I'm gonna call it quits here.
 
 ## Summary
 
@@ -210,7 +236,9 @@ So there you have it.  A reasonable number of challenges solved, mostly just by 
 
 Of course, there are still myriad more challenges in the OJS to complete, many of which will likely require other techniques to solve, and other preventative measures to defend against.  Thus, the list above is almost certainly thoroughly incomplete.  Cybersecurity:  It's a deep topic :)
 
-If you think this post seemed interesting, I fully encourage you to have a go yourself.  If you'd like to learn more about hacking websites/web applications, the [Portswigger Web Security Academy](https://portswigger.net/web-security) is generally extremely well-reputed for a free resource.  I believe it's somewhat focused on Portswigger's own product, Burp Suite, but that's just a (widely-used by professionals) tool to make doing a lot of these things easier, rather than something magical which enables people to do something they couldn't otherwise achieve.  You can also have a go at the most recent few year's [SANS Holiday Hack Challenges](https://www.sans.org/holidayhack).
+If you think this post seemed interesting, I fully encourage you to have a go yourself.  Give it your best shot without using any hints, but once you have spent a decent amount of time on something and haven't gotten any further, there's nothing wrong with looking for some help.  After all, if you're giving it a go, you're probably not claiming to be an expert already, and sometimes the only way to learn is to get some help from elsewhere.  Definitely some of the techniques I have seen used are things that I would likely never come up with myself, but once I have experience with them, perhaps by working through a walkthrough myself, I might know to try them out.
+
+If you'd like to learn more about hacking websites/web applications, the [Portswigger Web Security Academy](https://portswigger.net/web-security) is generally extremely well-reputed for a free resource.  I believe it's somewhat focused on Portswigger's own product, Burp Suite, but that's just a (widely-used by professionals) tool to make doing a lot of these things easier, rather than something magical which enables people to do something they couldn't otherwise achieve.  You can also have a go at the most recent few year's [SANS Holiday Hack Challenges](https://www.sans.org/holidayhack).
 
 For paid training resources, I understand that [Pentester Academy](https://www.pentesteracademy.com/) is pretty well-regarded, too.  There are also things like [Hack The Box](https://www.hackthebox.com/) and [Try Hack Me](https://tryhackme.com/).  [OWASP](https://owasp.org/) members receive complementary membership to an OWASP instance of [SecureFlag](https://www.secureflag.com/owasp).  I don't know exactly how well-regarded each of them is, but I don't think any of them have particularly bad reputations.  There are undoubtedly a vast panoply more resources, both free and paid, out there for web application security, but some of the above should be a good place to get started I imagine.
 
